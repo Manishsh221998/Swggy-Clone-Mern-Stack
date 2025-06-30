@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Admin - Restaurant</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link href="/stylesheet/css/sb-admin-2.min.css" rel="stylesheet" />
+  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background-color: #f8f9fc;
+    }
+
+    input::placeholder {
+      color: #bbb;
+    }
+
+    .form-control:focus {
+      border-color: #201e1e;
+      box-shadow: 0 0 0 0.2rem rgba(255, 151, 5, 0.25);
+    }
+
+    .btn-primary-custom {
+      background-color: #fc8019;
+      border: none;
+    }
+
+    .btn-primary-custom:hover {
+      background-color: #e76b08;
+    }
+
+    .btn-icon i {
+      font-size: 0.85rem;
+    }
+
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #fff;
+    }
+
+    .table thead th {
+      background-color: #f1f3f9;
+      font-weight: 700;
+      color: #4a4a4a;
+      border-bottom: 2px solid #e4e6ef;
+      padding: 0.75rem 1rem;
+    }
+
+    .table td,
+    .table th {
+      padding: 0.75rem 1rem;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f9fbff;
+      transition: background-color 0.3s ease;
+    }
+
+    .restaurant-img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.4em 0.6em;
+      border-radius: 0.35rem;
+    }
+
+    .edit-btn, .delete-btn {
+      background: none;
+      border: none;
+      padding: 4px 6px;
+    }
+
+    .edit-btn {
+      color: #069abe;
+    }
+
+    .edit-btn:hover {
+      color: #04708b;
+    }
+
+    .delete-btn {
+      color: #ff0606;
+    }
+
+    .delete-btn:hover {
+      color: #ac0505;
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("layout/sidebar.ejs") %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("layout/topbar.ejs") %>
+
+        <div class="container-fluid px-4 py-3">
+
+          <% if (error && error.length > 0) { %>
+            <div class="alert alert-danger" id="flash-error"><%= error %></div>
+          <% } %>
+          <% if (message && message.length > 0) { %>
+            <div class="alert alert-success" id="flash-success"><%= message %></div>
+          <% } %>
+
+          <!-- <h4 class="mb-2 text-dark fw-bold" style="font-size: 1.25rem;">Manage Restaurants</h4>
+          <hr> -->
+
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+            <div class="d-flex w-100 justify-content-between align-items-center gap-3 flex-wrap">
+              <!-- <form method="GET" action="/restaurant-inventory" class="d-flex flex-grow-1" style="max-width: 400px;">
+                <input type="text" name="search" class="form-control shadow-sm" placeholder="Search by name, email, or city..." value="<%= search %>" />
+              </form> -->
+          <h4 class="mb-2" style="font-size: 1.35rem;color: #11242d;font-weight: 600;">Manage Restaurants</h4>
+
+              <a href="/add-restaurant" class="btn btn-primary-custom text-white shadow-sm">
+                + Add Restaurant
+              </a>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table shadow-sm rounded" id="dataTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>City</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (restaurants.length > 0) { %>
+                  <% restaurants.forEach((restaurant, i) => { %>
+                    <tr>
+                      <td><%= i + 1 %></td>
+                      <td>
+                        <% if (restaurant.image) { %>
+                          <img src="<%= restaurant.image %>" alt="Restaurant Image" class="restaurant-img" />
+                        <% } else { %>
+                          <span class="text-muted small">No image</span>
+                        <% } %>
+                      </td>
+                      <td><%= restaurant.name %></td>
+                      <td><%= restaurant.address.city %></td>
+                      <td><%= restaurant.email %></td>
+                      <td>
+                        <span class="badge <%= restaurant.isOpen ? 'bg-success text-white' : 'bg-secondary text-white' %>">
+                          <%= restaurant.isOpen ? 'Open' : 'Closed' %>
+                        </span>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center" style="gap: 0.3rem;">
+                          <a href="/restaurant/edit/<%= restaurant._id %>" class="edit-btn" title="Edit">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <a href="/restaurant/delete/<%= restaurant._id %>" class="delete-btn" onclick="return confirm('Delete this restaurant?')" title="Delete">
+                            <i class="fas fa-trash"></i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="7" class="text-center text-muted">No restaurants found.</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <%- include("layout/footer.ejs") %>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+
+  <!-- DataTables -->
+  <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#dataTable').DataTable();
+    });
+
+    setTimeout(() => {
+      const success = document.getElementById('flash-success');
+      const error = document.getElementById('flash-error');
+      if (success) success.style.opacity = '0';
+      if (error) error.style.opacity = '0';
+      setTimeout(() => {
+        if (success) success.remove();
+        if (error) error.remove();
+      }, 500);
+    }, 2000);
+  </script>
+</body>
+
+</html>

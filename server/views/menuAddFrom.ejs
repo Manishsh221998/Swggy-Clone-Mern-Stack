@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Menu - Add Item</title>
+
+  <!-- Font Awesome -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Custom styles -->
+  <link href="stylesheet/css/sb-admin-2.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
+
+    .form-control:focus {
+      border-color: #131313;
+      box-shadow: 0 0 0 0.11rem rgba(150, 149, 149, 0.2);
+    }
+
+    .btn-orange {
+      background-color: #f57710;
+      color: #fff;
+    }
+
+    .btn-orange:hover {
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    .bordered-form {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      padding: 2rem;
+    }
+
+    .form-control-file {
+      border: 1px solid #ddd;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .alert {
+      font-size: 0.95rem;
+    }
+
+    .custom-section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #2c2c2c;
+    }
+
+    .gap-2 > * {
+      margin-left: 0.5rem;
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <%- include("layout/sidebar.ejs") %>
+    <!-- End of Sidebar -->
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <!-- Topbar -->
+        <%- include("layout/topbar.ejs") %>
+        <!-- End of Topbar -->
+
+        <div class="container-fluid">
+          <div class="mx-6 mt-5 mb-5">
+            <div class="bordered-form">
+              <h3 class="mb-4 text-dark font-weight-bold">Add New Menu Item</h3>
+              <hr />
+
+              <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger"><%= error %></div>
+              <% } %>
+              <% if (message && message.length > 0) { %>
+                <div class="alert alert-success"><%= message %></div>
+              <% } %>
+
+              <form action="/add/menu" method="POST" enctype="multipart/form-data">
+                <div class="form-row mb-3">
+                  <div class="form-group col-md-6">
+                    <label for="name">Item Name</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Paneer Tikka" required />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="price">Price (₹)</label>
+                    <input type="number" name="price" id="price" class="form-control" placeholder="199" required />
+                  </div>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="description">Description</label>
+                  <textarea name="description" id="description" rows="3" class="form-control" placeholder="Delicious grilled paneer..."></textarea>
+                </div>
+
+                <div class="form-row mb-3">
+                  <div class="form-group col-md-6">
+                    <label for="isVeg">Is Veg?</label>
+                    <select name="isVeg" id="isVeg" class="form-control">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="isAvailable">Available?</label>
+                    <select name="isAvailable" id="isAvailable" class="form-control">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row mb-3">
+                  <div class="form-group col-md-6">
+                    <label for="restaurantId">Restaurant</label>
+                    <select name="restaurantId" id="restaurantId" class="form-control" required>
+                      <% restaurants.forEach(r => { %>
+                        <option value="<%= r._id %>"><%= r.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="categoryId">Category</label>
+                    <select name="categoryId" id="categoryId" class="form-control" required>
+                      <% categories.forEach(c => { %>
+                        <option value="<%= c._id %>"><%= c.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group mb-4">
+                  <label for="image">Item Image</label>
+                  <input type="file" name="image" id="image" class="form-control-file" accept="image/*" />
+                </div>
+
+                <div class="mt-2 d-flex justify-content-end gap-2">
+                  <a href="/menu-inventory" class="btn btn-light shadow-sm">Cancel</a>
+                  <button type="submit" class="btn btn-orange shadow-sm">Add Item</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <%- include("layout/footer.ejs") %>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+</body>
+
+</html>

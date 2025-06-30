@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Admin - <%= title %></title>
+
+  <!-- Fonts & Styles -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800" rel="stylesheet" />
+  <link href="stylesheet/css/sb-admin-2.min.css" rel="stylesheet" />
+
+  <style>
+    .profile-container {
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 3rem 2rem;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .profile-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #eee;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .profile-avatar:hover {
+      opacity: 0.85;
+    }
+
+    .avatar-wrapper::after {
+      content: "\f044";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background-color: #010100;
+      color: #fff;
+      border-radius: 50%;
+      padding: 5px;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+
+    .form-control:disabled {
+      background-color: #f7f7f7;
+    }
+
+    .btn-update {
+      background-color: #fc8019;
+      border: none;
+      transition: 0.3s ease;
+    }
+
+    .btn-update:hover {
+      background-color: #000000;
+    
+    }
+
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    @media(max-width: 576px) {
+      .row > div {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("layout/sidebar.ejs") %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("layout/topbar.ejs") %>
+
+        <div class="container-fluid profile-container">
+
+          <!-- Flash messages -->
+      <!-- Flash messages -->
+<% if (success_msg && success_msg.length > 0) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= success_msg %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% } %>
+
+<% if (error_msg && error_msg.length > 0) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <%= error_msg %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% } %>
+
+
+          <div class="profile-card text-center position-relative">
+      
+            <!-- Logout Button -->
+            <a href="/logout" class="btn btn-sm btn-light logout-btn">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+
+            <!-- Profile Update Form -->
+            <form method="POST" action="/update-profile" enctype="multipart/form-data" id="profileForm"   >
+              <!-- Avatar -->
+              <label for="imageUpload" class="avatar-wrapper">
+                <img src="<%= data.image %>" alt="Avatar" class="profile-avatar" id="avatarPreview" />
+              </label>
+              <input type="file" id="imageUpload" name="image" accept="image/*" style="display: none;" onchange="previewAvatar(event)" />
+
+              <h3 class="fw-bold mt-2"><%= data.name %></h3>
+              <p class="text-muted"><%= data.role %> | <%= data.email %></p>
+
+              <!-- Fields -->
+              <div class="row text-start mt-4" style="text-align: start;">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Name</label>
+                  <input type="text" class="form-control" name="name" value="<%= data.name %>" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Email</label>
+                  <input type="email" class="form-control" name="email" value="<%= data.email %>"    />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Role</label>
+                  <input type="text" class="form-control" value="<%= data.role %>" disabled />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-semibold">Update Password</label>
+                  <input type="text" class="form-control" name="password" placeholder="Enter new password" />
+                </div>
+              </div>
+
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-update text-white px-5">
+                  Update Profile
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <%- include("layout/footer.ejs") %>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    function previewAvatar(event) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById('avatarPreview').src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+    <script>
+    // Auto dismiss alerts after 3 seconds
+   setTimeout(() => {
+    $('.alert').fadeTo(500, 0).slideUp(500, function () {
+      $(this).remove();
+    });
+  }, 800);
+  </script>
+</body>
+
+</html>

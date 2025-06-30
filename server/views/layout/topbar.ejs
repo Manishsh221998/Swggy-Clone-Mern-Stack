@@ -1,0 +1,56 @@
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="height: 70px;">
+
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars" style="color: #fc8019;"></i>
+    </button>
+
+    <!-- Brand -->
+    <div class="d-flex align-items-center">
+        <h2 class="mb-0" style="color: #fc8019; font-weight: 700;">Swiggy</h2>
+    </div>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto align-items-center">
+
+        <!-- Divider -->
+        <div class="topbar-divider d-none d-sm-block mx-2"></div>
+
+        <!-- Nav Item - User Information -->
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <!-- User Text Info -->
+                <div class="text-right mr-2 d-none d-lg-block">
+                    <div style="color: #333; font-weight: 600; font-size: 16px;"><%= data.name %></div>
+                    <div style="color: #888; font-size: 13px;"><%= data.role  %></div>
+                </div>
+
+                <!-- User Avatar -->
+                <img class="img-profile rounded-circle border" src="<%= data.image || '/default-user.png' %>"
+                    alt="User Avatar" title="<%= data.name %>" style="width: 40px; height: 40px; object-fit: cover;">
+            </a>
+
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="/profile">
+                    <i class="fas fa-user fa-sm fa-fw mr-2" style="color: #fc8019;"></i>
+                    Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2" style="color: #fc8019;"></i>
+                    Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2" style="color: #fc8019;"></i>
+                    Logout
+                </a>
+            </div>
+        </li>
+
+    </ul>
+</nav>
+<!-- End of Topbar -->

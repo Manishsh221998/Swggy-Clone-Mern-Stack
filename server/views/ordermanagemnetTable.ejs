@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin - <%= title %>
+  </title>
+
+  <!-- Fonts and styles -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700" rel="stylesheet">
+  <link href="/stylesheet/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+  <style>
+    .alert {
+      transition: opacity 0.5s ease-out;
+    }
+
+    @media (max-width: 768px) {
+
+      .table th,
+      .table td {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include('layout/sidebar.ejs') %>
+
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <%- include('layout/topbar.ejs') %>
+
+            <!-- Page Content -->
+            <div class="container-fluid">
+
+              <!-- Heading -->
+              <h1 class="h3 mb-2 text-gray-800">Orders Table</h1>
+              <p class="mb-4">This table displays order details from the system.</p>
+
+              <!-- Flash Messages -->
+              <% if (success && success.length> 0) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-success">
+                  <%= success %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <% } %>
+                  <% if (error && error.length> 0) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flash-error">
+                      <%= error %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <% } %>
+
+                      <!-- Order Table -->
+                      <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Order List</h6>
+                        </div>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th>Order ID</th>
+                                  <th>User</th>
+                                  <th>Restaurant</th>
+                                  <th>Items</th>
+                                  <th>Total</th>
+                                  <th>Status</th>
+                                  <th>Change</th>
+                                  <th>Created At</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% orders.forEach(order=> { %>
+                                  <tr>
+                                    <td>
+  <%= "#ORD" + order._id.toString().slice(-6).toUpperCase() %>
+</td>
+                                    <td>
+                                      <%= order.user?.name || 'N/A' %><br>
+                                        <small class="text-muted">
+                                          <%= order.user?.email || '' %>
+                                        </small>
+                                    </td>
+                                    <td>
+                                      <%= order.restaurant?.name || 'N/A' %>
+                                    </td>
+                                    <td>
+                                      <ul class="pl-3 mb-0" >
+                                        <% order.items.forEach(item=> { %>
+                                          <li  >
+                                            <%= item.name %> × <%= item.quantity %> (₹<%= item.price %>)
+                                          </li >
+                                          <% }) %>
+                                      </ul>
+                                    </td>
+                                    <td>₹<%= order.totalAmount.toFixed(2) %>
+                                    </td>
+                                    <td>
+                                      <% let statusColor='' ; %>
+                                        <% switch (order.status) { case 'Pending' : statusColor='danger' ; break;
+                                          case 'Preparing' : statusColor='warning' ; break; case 'Out for Delivery' :
+                                          statusColor='info' ; break; case 'Delivered' : statusColor='success' ;
+                                          break; default: statusColor='dark' ; } %>
+                                          <span class="badge badge-<%= statusColor %>">
+                                            <%= order.status %>
+                                          </span>
+                                    </td>
+                                    <td>
+                                      <form action="/api/orders/update-status" method="POST">
+                                        <input type="hidden" name="orderId" value="<%= order._id %>">
+                                        <select name="status" class="form-control form-control-sm"
+                                          onchange="this.form.submit()">
+                                          <% ['Pending', 'Preparing' , 'Out for Delivery' , 'Delivered'
+                                            ].forEach(statusOption=> { %>
+                                            <option value="<%= statusOption %>" <%=order.status===statusOption
+                                              ? 'selected' : '' %>>
+                                              <%= statusOption %>
+                                            </option>
+                                            <% }) %>
+                                        </select>
+                                      </form>
+                                    </td>
+                                    <td>
+                                      <%= new Date(order.createdAt).toLocaleString() %>
+                                    </td>
+                                  </tr>
+                                  <% }) %>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+            </div>
+        </div>
+
+        <%- include('layout/footer.ejs') %>
+      </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+  <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="/js/demo/datatables-demo.js"></script>
+
+  <!-- Auto-dismiss flash after 1s -->
+  <script>
+    setTimeout(() => {
+      const success = document.getElementById('flash-success');
+      const error = document.getElementById('flash-error');
+      if (success) success.style.opacity = '0';
+      if (error) error.style.opacity = '0';
+      setTimeout(() => {
+        if (success) success.remove();
+        if (error) error.remove();
+      }, 500);
+    }, 1000);
+  </script>
+</body>
+
+</html>

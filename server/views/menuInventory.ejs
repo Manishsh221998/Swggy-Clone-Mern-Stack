@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Admin - Menu Inventory</title>
+
+  <!-- Fonts and Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link href="/stylesheet/css/sb-admin-2.min.css" rel="stylesheet" />
+  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background-color: #f8f9fc;
+    }
+
+    .form-control:focus {
+      border-color: #201e1e;
+      box-shadow: 0 0 0 0.2rem rgba(255, 151, 5, 0.25);
+    }
+
+    .btn-primary-custom {
+      background-color: #fc8019;
+      border: none;
+    }
+
+    .btn-primary-custom:hover {
+      background-color: #e76b08;
+    }
+
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #fff;
+    }
+
+    .table thead th {
+      background-color: #f1f3f9;
+      font-weight: 700;
+      color: #4a4a4a;
+      border-bottom: 2px solid #e4e6ef;
+      padding: 0.75rem 1rem;
+    }
+
+    .table td,
+    .table th {
+      padding: 0.75rem 1rem;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f9fbff;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-sm {
+      padding: 0.375rem 0.55rem;
+      font-size: 0.75rem;
+      border-radius: 6px;
+    }
+
+    .veg-icon, .nonveg-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid;
+      border-radius: 2px;
+      position: relative;
+      margin-right: 5px;
+    }
+
+    .veg-icon {
+      border-color: green;
+    }
+
+    .veg-icon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background-color: green;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .nonveg-icon {
+      border-color: red;
+    }
+
+    .nonveg-icon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background-color: red;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("layout/sidebar.ejs") %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("layout/topbar.ejs") %>
+
+        <div class="container-fluid px-4 py-3">
+
+          <% if (error && error.length > 0) { %>
+            <div class="alert alert-danger" id="flash-error"><%= error %></div>
+          <% } %>
+          <% if (message && message.length > 0) { %>
+            <div class="alert alert-success" id="flash-success"><%= message %></div>
+          <% } %>
+
+          <!-- <h4 class="mb-2 text-dark fw-bold" style="font-size: 1.25rem;">Manage Menu Items</h4>
+          <hr /> -->
+
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+            <div class="d-flex w-100 justify-content-between align-items-center gap-3 flex-wrap">
+              <!-- <form method="GET" action="/menu-inventory" class="d-flex flex-grow-1" style="max-width: 400px;">
+                <input type="text" name="search" class="form-control shadow-sm" placeholder="Search by name or restaurant..." value="<%= search %>" />
+              </form> -->
+          <h4 class="mb-2" style="font-size: 1.35rem;color: #11242d;font-weight: 600;">Manage Menu Items</h4>
+
+              <a href="/add-menu" class="btn btn-primary-custom text-white shadow-sm">
+                + Add Menu Item
+              </a>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table shadow-sm rounded" id="dataTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Restaurant</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Food Category</th>
+                  <th>Available</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (menuItems.length > 0) { %>
+                  <% menuItems.forEach((item, i) => { %>
+                    <tr>
+                      <td><%= i + 1 %></td>
+                      <td><%= item.name %></td>
+                      <td><%= item.restaurantId?.name || 'N/A' %></td>
+                      <td><%= item.categoryId?.name || 'N/A' %></td>
+                      <td>₹<%= item.price %></td>
+                      <td>
+                        <% if (item.isVeg) { %>
+                          <span class="veg-icon" title="Veg"></span> <span class="text-success">Veg</span>
+                        <% } else { %>
+                          <span class="nonveg-icon" title="Non-Veg"></span> <span class="text-danger">Non-Veg</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <span class="badge <%= item.isAvailable ? 'bg-info text-white' : 'bg-secondary text-white' %>">
+                          <%= item.isAvailable ? 'Yes' : 'No' %>
+                        </span>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center" style="gap: 0.3rem;">
+                          <a href="/menu/edit/<%= item._id %>" class="btn btn-sm text-white btn-icon btn-primary-custom">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <form method="GET" action="/menu/delete/<%= item._id %>">
+                            <button type="submit" class="btn btn-sm btn-danger btn-icon" onclick="return confirm('Delete this item?')">
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="8" class="text-center text-muted">No menu items found.</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <%- include("layout/footer.ejs") %>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+
+  <!-- DataTables -->
+  <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#dataTable').DataTable();
+    });
+  </script>
+
+  <!-- Flash Message Auto-Close -->
+  <script>
+    setTimeout(() => {
+      const success = document.getElementById('flash-success');
+      const error = document.getElementById('flash-error');
+      if (success) success.style.opacity = '0';
+      if (error) error.style.opacity = '0';
+      setTimeout(() => {
+        if (success) success.remove();
+        if (error) error.remove();
+      }, 500);
+    }, 2000);
+  </script>
+</body>
+
+</html>

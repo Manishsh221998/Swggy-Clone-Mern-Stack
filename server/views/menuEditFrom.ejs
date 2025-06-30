@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Menu Item - Update</title>
+
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
+  <link href="/stylesheet/css/sb-admin-2.min.css" rel="stylesheet">
+
+  <style>
+    .form-section-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      border-radius: 0.75rem;
+    }
+
+    .menu-image {
+      width: 180px;
+      height: 120px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+    }
+
+    .btn-orange {
+      background-color: #f27438;
+      color: white;
+    }
+
+    .btn-orange:hover {
+      background-color: #e15e1f;
+      color: white;
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("layout/sidebar.ejs") %>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("layout/topbar.ejs") %>
+
+        <div class="row justify-content-center mx-3 my-5">
+          <div class="col-lg-12">
+            <div class="card p-4">
+              <h3 class="mb-4 text-dark font-weight-bold">Update Menu Item</h3>
+              <hr>
+
+              <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger"><%= error %></div>
+              <% } %>
+              <% if (message && message.length > 0) { %>
+                <div class="alert alert-success"><%= message %></div>
+              <% } %>
+
+              <form action="/menu/update/<%= item._id %>" method="POST" enctype="multipart/form-data">
+                <div class="form-row mb-3">
+                  <div class="form-group col-md-6">
+                    <label class="form-section-title" for="name">Item Name</label>
+                    <input type="text" name="name" id="name" class="form-control" value="<%= item.name %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-section-title" for="price">Price</label>
+                    <input type="number" name="price" id="price" class="form-control" value="<%= item.price %>" required>
+                  </div>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label class="form-section-title" for="description">Description</label>
+                  <textarea name="description" id="description" class="form-control" rows="3"><%= item.description %></textarea>
+                </div>
+
+                <div class="form-row mb-3">
+                  <div class="form-group col-md-6">
+                    <label class="form-section-title" for="isVeg">Is Veg</label>
+                    <select name="isVeg" id="isVeg" class="form-control">
+                      <option value="true" <%= item.isVeg ? 'selected' : '' %>>Yes</option>
+                      <option value="false" <%= !item.isVeg ? 'selected' : '' %>>No</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-section-title" for="isAvailable">Is Available</label>
+                    <select name="isAvailable" id="isAvailable" class="form-control">
+                      <option value="true" <%= item.isAvailable ? 'selected' : '' %>>Yes</option>
+                      <option value="false" <%= !item.isAvailable ? 'selected' : '' %>>No</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row mb-3">
+                  <div class="form-group col-md-6">
+                    <label class="form-section-title" for="restaurantId">Restaurant</label>
+                    <select name="restaurantId" id="restaurantId" class="form-control">
+                      <% restaurants.forEach(r => { %>
+                        <option value="<%= r._id %>" <%= r._id.toString() === item.restaurantId.toString() ? 'selected' : '' %>><%= r.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label class="form-section-title" for="categoryId">Category</label>
+                    <select name="categoryId" id="categoryId" class="form-control">
+                      <% categories.forEach(c => { %>
+                        <option value="<%= c._id %>" <%= c._id.toString() === item.categoryId.toString() ? 'selected' : '' %>><%= c.name %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group mb-4">
+                  <label class="form-section-title">Current Image</label><br>
+                  <% if (item.image) { %>
+                    <img src="/<%= item.image %>" alt="Menu Image" class="menu-image mb-2">
+                  <% } else { %>
+                    <p>No image uploaded.</p>
+                  <% } %>
+                </div>
+
+                <div class="form-group mb-4">
+                  <label for="image" class="form-section-title">Change Image</label>
+                  <input type="file" name="image" id="image" class="form-control-file" accept="image/*">
+                </div>
+
+                <div class="mt-2 d-flex justify-content-end gap-2">
+                  <a href="/menu-inventory" class="btn btn-light shadow-sm">Cancel</a>
+                  <button type="submit" class="btn btn-orange shadow-sm">Update</button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <%- include("layout/footer.ejs") %>
+    </div>
+  </div>
+
+  <!-- JS scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+</body>
+</html>

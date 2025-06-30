@@ -1,0 +1,77 @@
+<ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar" style="background-color: #fef3e6; color: #333;">
+
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/" style="color: #fc8019;">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-hamburger" style="color: #fc8019;"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3 fw-bold">Swiggy CMS</div>
+  </a>
+
+  <hr class="sidebar-divider my-0">
+
+  <!-- Dashboard -->
+  <li class="nav-item active">
+    <a class="nav-link" href="/" style="color: #333;">
+      <i class="fas fa-fw fa-tachometer-alt" style="color: #fc8019;"></i>
+      <span>Admin Dashboard</span>
+    </a>
+  </li>
+
+  <hr class="sidebar-divider">
+
+  <!-- Content Management -->
+  <div class="sidebar-heading" style="color: #999;">Content Management</div>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+      aria-expanded="true" aria-controls="collapseTwo" style="color: #333;">
+      <i class="fas fa-fw fa-utensils" style="color: #fc8019;"></i>
+      <span>Food Inventory</span>
+    </a>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-light py-2 collapse-inner rounded">
+        <h6 class="collapse-header" style="color: #fc8019;">Manage Listings</h6>
+        <a class="collapse-item" href="/cuisine-menuCategory" style="color: #333;">Cuisines & Categories</a>
+        <a class="collapse-item" href="/restaurant-inventory" style="color: #333;">Vendor Outlets</a>
+        <a class="collapse-item" href="/menu-inventory" style="color: #333;">Menu Items</a>
+      </div>
+    </div>
+  </li>
+
+  <hr class="sidebar-divider">
+
+  <!-- User & Access -->
+  <div class="sidebar-heading" style="color: #999;">Staff & Access</div>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+      aria-expanded="true" aria-controls="collapsePages" style="color: #333;">
+      <i class="fas fa-fw fa-user-cog" style="color: #fc8019;"></i>
+      <span>Employee Access</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-light py-2 collapse-inner rounded">
+        <h6 class="collapse-header" style="color: #fc8019;">User Management</h6>
+        <a class="collapse-item" href="/add-employee" style="color: #333;">Add Team Member</a>
+        <a class="collapse-item" href="/forgotPassword" style="color: #333;">Reset Credentials</a>
+      </div>
+    </div>
+  </li>
+
+  <!-- Orders -->
+  <li class="nav-item">
+    <a class="nav-link" href="/api/orders/table" style="color: #333;">
+      <i class="fas fa-fw fa-clipboard-list" style="color: #fc8019;"></i>
+      <span>Order Management</span>
+    </a>
+  </li>
+
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggle -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0 shadow-sm bg-light text-white" id="sidebarToggle"></button>
+  </div>
+
+</ul>
