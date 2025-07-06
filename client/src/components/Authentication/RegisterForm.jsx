@@ -4,6 +4,7 @@ import { Box, TextField, Typography, Button } from '@mui/material';
 import { useCreateUser } from '../../hooks/useUser';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const RegisterForm = ({ onChangeForm, onClose }) => {
   const {
@@ -314,7 +315,7 @@ const RegisterForm = ({ onChangeForm, onClose }) => {
                     Creating Account...
                   </motion.span>
                 ) : (
-                  'Register Now'
+                  'Sign up'
                 )}
               </Button>
             </motion.div>
@@ -335,7 +336,8 @@ const RegisterForm = ({ onChangeForm, onClose }) => {
                   lineHeight: 1.5
                 }}
               >
-                By registering, you agree to our <Box component="span" fontWeight="600" color="black">Terms</Box> and <Box component="span" fontWeight="600" color="black">Privacy Policy</Box>
+                By registering, you agree to our <Box component={Link} to='/t&c' fontWeight="600" color="black">Terms</Box> and <Box component={Link} to='/privacy-policy' fontWeight="600" color="black">Privacy Policy</Box>
+
               </Typography>
             </motion.div>
           </motion.div>

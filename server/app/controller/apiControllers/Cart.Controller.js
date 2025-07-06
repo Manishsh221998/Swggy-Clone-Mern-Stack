@@ -70,7 +70,8 @@ async addToCart(req, res) {
   try {
     const userId = req.user.id;
     const { menuItemId, quantity } = req.body;
-
+    
+     
     // Validate input
     if (!menuItemId || !quantity)
       return res.status(400).json({ success: false, message: 'menuItemId and quantity are required' });
@@ -80,7 +81,6 @@ async addToCart(req, res) {
       User.findById(userId),
       Menu.findById(menuItemId)
     ]);
-
     // If either user or menu item not found
     if (!user || !menuItem)
       return res.status(400).json({ success: false, message: 'Invalid user or menu item ID' });

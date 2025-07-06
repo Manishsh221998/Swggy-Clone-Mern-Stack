@@ -43,7 +43,7 @@ export const addToCart = createAsyncThunk(
    
       return res.data?.data?.items;
     } catch (error) {
-      toast.error("Failed to add item to cart.");
+      toast.error('Please login, to add items to your cart');
       return rejectWithValue(error.response?.data);
     }
   }

@@ -170,7 +170,7 @@ const CartPage = () => {
       >
         <CardContent sx={{ p: isMobile ? 2 : 3 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: isMobile ? 1.5 : 3 }}>
-            <CardMedia
+        {restaurantData?<CardMedia
               component="img"
               image={`http://localhost:3001/${restaurantData?.image?.replace(/\\/g, "/")}`}
               alt={restaurantData?.name}
@@ -180,7 +180,7 @@ const CartPage = () => {
                 borderRadius: 2,
                 objectFit: "cover",
               }}
-            />
+            />:null} 
             <Box>
               <Typography variant={isMobile ? "subtitle1" : "h6"} fontWeight={600}>
                 {restaurantData?.name}
@@ -265,7 +265,7 @@ const CartPage = () => {
                       <IconButton
                         size="small"
                         onClick={() => updateQuantity(item.menuItemId, item.quantity - 1)}
-                        sx={{ border: "1px solid rgba(0,0,0,0.12)", borderRadius: 1.5 }}
+                        sx={{ border: "1px solid rgba(0,0,0,0.12)", borderRadius: 1.5}}
                       >
                         <RemoveIcon />
                       </IconButton>
@@ -281,7 +281,7 @@ const CartPage = () => {
                       </IconButton>
                       <IconButton
                         onClick={() => updateQuantity(item._id, 0)}
-                        sx={{ color: "red" }}
+                        sx={{ color: "red"}}
                       >
                         <DeleteIcon />
                       </IconButton>

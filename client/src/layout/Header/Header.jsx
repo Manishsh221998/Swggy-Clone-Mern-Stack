@@ -15,6 +15,7 @@ import {
   Divider,
   MenuItem,
   Badge,
+  ClickAwayListener,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -86,24 +87,20 @@ const Header = () => {
   return (
     <>
       <AppBar
-        position={isMobile?"static":"static"}
+        position={isMobile || loginDrawerOpen ? "static" : "fixed"}
         elevation={0}
         sx={{
-          // backgroundColor: scrolled ? "rgba(255, 255, 255, 0.85)" : "transparent",
           background: scrolled
-    ? "linear-gradient(90deg, rgba(255,255,255,0.85) 0%, rgba(255,243,213,0.85) 100%)"
-    : "transparent",
+            ? "linear-gradient(90deg, rgba(255,255,255,0.85) 0%, rgba(255,243,213,0.85) 100%)"
+            : "transparent",
           color: "#000",
           backdropFilter: scrolled ? "blur(9px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(9px)" : "none",
           transition: "all 0.3s ease-in-out",
-          // boxShadow: scrolled ? "0 4px 12px rgba(0, 0, 0, 0.06)" : "none",
-          // borderBottom: scrolled ? "1px solid rgba(0, 0, 0, 0.05)" : "none",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.06)" ,
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.06)",
           borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
           zIndex: theme.zIndex.drawer + 1,
-          py: 0.5,
-           
+          py: 0,
         }}
       >
         <Box
@@ -160,22 +157,14 @@ const Header = () => {
               </Box>
             </Box>
 
-            {/* Center: Menu Items */}
+            {/* Center: Menu */}
             {!isMobile && (
-              <Box
-                sx={{
-                  flex: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 4,
-                }}
-              >
-                {[
-                  { icon: <HomeIcon />, path: "/", label: "Home" },
+              <Box sx={{ flex: 1, display: "flex", justifyContent: "center", gap: 4 }}>
+                {[{ icon: <HomeIcon />, path: "/", label: "Home" },
                   { icon: <FastfoodIcon />, path: "/menu", label: "Menu" },
                   {
                     icon: (
-                      <Badge badgeContent={totalCount} color="success"  >
+                      <Badge badgeContent={totalCount} color="success">
                         <ShoppingCart />
                       </Badge>
                     ),
@@ -201,15 +190,8 @@ const Header = () => {
               </Box>
             )}
 
-            {/* Right: Avatar/Login */}
-            <Box
-              sx={{
-                flex: 1,
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
+            {/* Right: Avatar or Login */}
+            <Box sx={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
               {!isMobile ? (
                 token && user ? (
                   <Box
@@ -218,10 +200,7 @@ const Header = () => {
                       setDropdownVisible(true);
                     }}
                     onMouseLeave={() => {
-                      hideDropdownTimeout.current = setTimeout(
-                        () => setDropdownVisible(false),
-                        300
-                      );
+                      hideDropdownTimeout.current = setTimeout(() => setDropdownVisible(false), 300);
                     }}
                     sx={{ position: "relative" }}
                   >
@@ -243,9 +222,7 @@ const Header = () => {
                           sx={{ width: 36, height: 36 }}
                         />
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          {user.name.length > 16
-                            ? `${user.name.slice(0, 14)}...`
-                            : user.name}
+                          {user.name.length > 16 ? `${user.name.slice(0, 14)}...` : user.name}
                         </Typography>
                       </Box>
                     </Link>
@@ -253,10 +230,7 @@ const Header = () => {
                       <Box
                         onMouseEnter={() => clearTimeout(hideDropdownTimeout.current)}
                         onMouseLeave={() => {
-                          hideDropdownTimeout.current = setTimeout(
-                            () => setDropdownVisible(false),
-                            300
-                          );
+                          hideDropdownTimeout.current = setTimeout(() => setDropdownVisible(false), 300);
                         }}
                         sx={{
                           position: "absolute",
@@ -322,11 +296,9 @@ const Header = () => {
         </Box>
       </AppBar>
 
-      {/* Spacer for fixed AppBar */}
-   {!isMobile && <Box sx={{ height: "72px" }} />}
+      {!isMobile && <Box sx={{ height: "72px" }} />}
 
-
-      {/* Mobile Drawer */}
+      {/* Drawer for mobile */}
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box sx={{ width: 250 }} onClick={toggleDrawer(false)}>
           <List>
@@ -394,13 +366,40 @@ const Header = () => {
         </Box>
       </Drawer>
 
-      {/* Auth Drawer */}
-      <AuthDrawerController
-        open={loginDrawerOpen}
-        onClose={toggleLoginDrawer(false)}
-        formType={formType}
-        setFormType={setFormType}
-      />
+      {/* Auth Panel */}
+      {isMobile ? (
+        <AuthDrawerController
+          open={loginDrawerOpen}
+          onClose={toggleLoginDrawer(false)}
+          formType={formType}
+          setFormType={setFormType}
+        />
+      ) : (
+        loginDrawerOpen && (
+          <ClickAwayListener onClickAway={toggleLoginDrawer(false)}>
+            <Box
+              // sx={{
+              //   position: "absolute",
+              //   top: "72px",
+              //   right: 32,
+              //   width: 360,
+              //   backgroundColor: "#fff",
+              //   boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+              //   borderRadius: 2,
+              //   zIndex: 1300,
+              //   p: 2,
+              // }}
+            >
+              <AuthDrawerController
+                open={true}
+                onClose={toggleLoginDrawer(false)}
+                formType={formType}
+                setFormType={setFormType}
+              />
+            </Box>
+          </ClickAwayListener>
+        )
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,69 +6,76 @@ import {
   Navigate,
 } from "react-router-dom";
 import Header from "../layout/Header/Header";
-
-import ProfilePage from "../components/Authentication/profile/ProfilePage";
-import ResetPasswordForm from "../components/Authentication/ResetPasswordForm";
-import Home from "../components/Home/Home";
-import RestaurentsList from "../components/Restaurents/RestaurentsList";
-import RestaurentWiseMenus from "../components/Restaurents/RestaurentWiseMenus";
-import CartPage from "../components/Cart/CartPage";
+import ProtectedRoute from "../auth/ProtectedRoute";
 import Footer from "../layout/Footer/Footer";
-import Menu from "../components/Menu/Menu";
-    
-// import NotFoundPage from './pages/NotFoundPage';
-// import { useAuth } from './context/AuthContext';
 
-// const ProtectedRoute = ({ children }) => {
-//   const { isAuthenticated } = useAuth();
-//   return isAuthenticated ? children : <Navigate to="/login" />;
-// };
+// Lazy-loaded components
+const Home = lazy(() => import("../components/Home/Home"));
+const Menu = lazy(() => import("../components/Menu/Menu"));
+const CartPage = lazy(() => import("../components/Cart/CartPage"));
+const ProfilePage = lazy(() => import("../components/Authentication/profile/ProfilePage"));
+const ResetPasswordForm = lazy(() => import("../components/Authentication/ResetPasswordForm"));
+const RestaurentsList = lazy(() => import("../components/Restaurents/RestaurentsList"));
+const RestaurentWiseMenus = lazy(() => import("../components/Restaurents/RestaurentWiseMenus"));
+const NotFoundPage = lazy(() => import("../components/Not_found/NotFoundPage"));
+const TermsAndConditions = lazy(() => import("../components/T&C/TermsAndConditions "));
+const PrivacyPolicy = lazy(() => import("../components/T&C/PrivacyPolicy"));
+
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+import AboutPage from "../components/About/About";
+import ContactPage from "../components/Contact/Contact";
 
 const Routing = () => {
   return (
     <Router>
       <Header />
-         <Routes>
-                {/* Public Routes */}
+       <Suspense fallback={ 
+          <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
+      <CircularProgress color="inherit" />
+    </Stack>
+      }
+      >
 
-        <Route path="/" element={<Home />} />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          
+          {/* Protected Route for Profile */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="/account/reset-password-confirm/:id/:token"
+            element={<ResetPasswordForm />}
+          />
+          <Route path="/restaurents/:categoryId" element={<RestaurentsList />} />
+          <Route
+            path="restaurents/:categoryId/restaurent-wise-menus/:restaurantId"
+            element={<RestaurentWiseMenus />}
+          />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/Menu" element={<Menu />} />
 
-        <Route
-          path="/account/reset-password-confirm/:id/:token"
-          element={<ResetPasswordForm />}
-        />
-        <Route path="/restaurents/:categoryId" element={<RestaurentsList />} />
-        <Route
-          path="restaurents/:categoryId/restaurent-wise-menus/:restaurantId"
-          element={<RestaurentWiseMenus />}
-        />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/Menu" element={<Menu />} />
- 
+          {/* T&C */}
+          <Route path="/t&c" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-        {/* Protected Routes
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          } */}
-        {/* <Route
-          path="/update-password"
-          element={
-            <ProtectedRoute>
-              <UpdatePasswordPage />
-            </ProtectedRoute>
-          }
-        /> */}
-
-        {/* Fallback */}
-        {/* <Route path="*" element={<NotFoundPage />} /> */}
-      </Routes>
-      <Footer/>
+          {/* About & Contact */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          
+          {/* Fallback */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+      <Footer />
     </Router>
   );
 };

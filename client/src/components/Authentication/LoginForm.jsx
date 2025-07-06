@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Box, TextField, Typography, Button } from '@mui/material';
 import { useUserLogin } from '../../hooks/useUser';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const LoginForm = ({ onChangeForm, onClose }) => {
   const {
@@ -78,7 +79,7 @@ const LoginForm = ({ onChangeForm, onClose }) => {
             position: 'relative',
             maxWidth: 410,
             width: '100%',
-          }}
+            }}
         >
           {/* Header */}
           <motion.div
@@ -263,7 +264,7 @@ const LoginForm = ({ onChangeForm, onClose }) => {
                     Signing In...
                   </motion.span>
                 ) : (
-                  'Login'
+                  'Sign in'
                 )}
               </Button>
             </motion.div>
@@ -284,7 +285,7 @@ const LoginForm = ({ onChangeForm, onClose }) => {
                   lineHeight: 1.5
                 }}
               >
-                By logging in, you agree to our <Box component="span" fontWeight="600" color="black">Terms</Box> and <Box component="span" fontWeight="600" color="black">Privacy Policy</Box>
+                By logging in, you agree to our <Box component={Link} to='t&c' fontWeight="600" color="black">Terms</Box> and <Box component={Link} to='/privacy-policy' fontWeight="600" color="black">Privacy Policy</Box>
               </Typography>
             </motion.div>
           </motion.div>

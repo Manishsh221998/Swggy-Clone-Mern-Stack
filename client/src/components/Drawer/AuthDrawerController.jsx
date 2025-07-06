@@ -33,7 +33,14 @@ const AuthDrawerController = ({ open, onClose, formType, setFormType }) => {
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: isMobile ? '100%' : 520, borderTopLeftRadius:{lg:8},borderBottomLeftRadius:{lg:8}
+ width: isMobile ? '100%' : 520,
+    borderTopLeftRadius: { lg: 8 },
+    borderBottomLeftRadius: { lg: 8 },
+    background: 'linear-gradient(to bottom right, #ffffff, #FCF9EA )', // white to light orange
+     backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    padding:1.5,
+    color: '#333', // dark text for contrast
         },
       }}
     >
