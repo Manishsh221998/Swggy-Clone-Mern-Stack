@@ -4,7 +4,8 @@ import {
   getMenuCategory,
   getAllRestaurants,
   getRestaurantWithMenu,
-  getRestaurantsByCategory
+  getRestaurantsByCategory,
+  getMenuItems
 } from '../api/apiHandler';
 
 // Get all menu categories
@@ -12,6 +13,14 @@ export const useMenuCategories = () => {
   return useQuery({
     queryKey: ['menu/categories'],
     queryFn: getMenuCategory
+  });
+};
+
+// Get all menu items
+export const useMenuItems = () => {
+  return useQuery({
+    queryKey: ['menuItems-list'],
+    queryFn: getMenuItems
   });
 };
 

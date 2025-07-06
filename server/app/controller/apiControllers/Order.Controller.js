@@ -1,7 +1,11 @@
 const Cart = require('../../models/Cart');
 const Order = require('../../models/Order');
 const User = require('../../models/User');
+const Razorpay = require('razorpay');
+const crypto =require('crypto')
 const sendOrderConfirmationEmail=require('../../helper/sendOrderConfirmationEmail')
+
+
  class OrderController {
 
   async placeOrder(req, res) {
@@ -78,6 +82,102 @@ const sendOrderConfirmationEmail=require('../../helper/sendOrderConfirmationEmai
     }
   }
 
+async createRazorpayOrder(req, res) {
+  try {
+    const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
+});
+    const { amount } = req.body;
+
+    if (!amount || isNaN(amount)) {
+      return res.status(400).json({ success: false, message: "Invalid amount" });
+    }
+
+    const razorpayOrder = await razorpay.orders.create({
+      amount: Math.round(amount), // in paise
+      currency: "INR",
+      receipt: `rcptid_${Date.now()}`,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Razorpay order created successfully",
+      orderId: razorpayOrder.id,
+      amount: razorpayOrder.amount,
+      currency: razorpayOrder.currency,
+    });
+
+  } catch (error) {
+    console.log("Razorpay order creation error:", error);
+    return res.status(500).json({ success: false, message: "Failed to create Razorpay order" });
+  }
+}
+
+async verifyPaymentAndPlaceOrder(req, res) {
+  try {
+    const userId = req.user.id;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    // Step 1: Verify signature
+    const generatedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest("hex");
+
+    if (generatedSignature !== razorpay_signature) {
+      return res.status(400).json({ success: false, message: "Invalid signature" });
+    }
+
+    // Step 2: Get user's cart
+    const cart = await Cart.findOne({ userId });
+    if (!cart || !cart.items || cart.items.length === 0) {
+      return res.status(400).json({ success: false, message: 'Cart is empty' });
+    }
+
+    // Step 3: Prepare order data
+    const orderItems = cart.items.map(item => ({
+      menuItemId: item.menuItemId,
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price
+    }));
+
+    const totalAmount = orderItems.reduce((sum, item) => sum + item.price, 0);
+
+    const order = new Order({
+      userId,
+      restaurantId: cart.restaurantId,
+      items: orderItems,
+      totalAmount,
+      razorpay_order_id,
+      razorpay_payment_id,
+      paymentStatus: 'Paid'
+    });
+
+    await order.save();
+
+    // Step 4: Clear the cart
+    cart.items = [];
+    await cart.save();
+
+    // Step 5: Send confirmation email
+    const user = await User.findById(userId);
+    if (user) {
+      await sendOrderConfirmationEmail(user, order);
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Payment verified and order placed successfully",
+      data: order
+    });
+
+  } catch (error) {
+    console.error("Verify payment error:", error);
+    res.status(500).json({ success: false, message: "Payment verification failed", error: error.message });
+  }
+}
 
 //----------------------------------------ADMIN PANEL API----------------------------------
 

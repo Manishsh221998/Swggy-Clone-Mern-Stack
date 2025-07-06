@@ -2,6 +2,7 @@ const { hashPassword, comparePassword } = require("../middleware/hashPassword");
 const Role = require("../models/Role");
 const path = require("path");
 const fs = require("fs");
+const moment = require('moment');
 const User = require("../models/User");
 const Restaurant = require("../models/Restaurant");
 const MenuItem = require("../models/MenuItem");
@@ -41,15 +42,22 @@ class AuthCOntroller {
   }
 
   async registerView(req, res) {
-    const success_msg = req.flash("success_msg");
-    const error_msg = req.flash("error_msg");
     try {
-      const roles = await Role.find();
+    const success_msg = req.flash("success_msg");
+    const error = req.flash("error");
+    const userData = await User.findById(req.user.id);
+    const adminData=await User.find({role:'Admin'}) 
+        //  console.log(adminData)
+      const roles = await Role.find({name:'Admin'});
+      // console.log(roles)
       res.render("register", {
         title: "Admin - registeration",
         roles,
         success_msg,
-        error_msg,
+        error,
+                data: userData,
+                adminData
+
       });
     } catch (error) {
       console.log("Error in register view");
@@ -60,20 +68,20 @@ class AuthCOntroller {
     try {
       const { name, email, password, roleId } = req.body;
       if (!(name && email && password && roleId && req.file)) {
-        req.flash("error_msg", "All input fields are required");
+        req.flash("error", "All input fields are required");
         return res.redirect("/register-view");
       }
       // Fetch the role
       const role = await Role.findById(roleId);
       if (!role) {
-        req.flash("error_msg", "Role not found with the provided ID");
+        req.flash("error", "Role not found with the provided ID");
         return res.redirect("/register-view");
       }
 
       // Check for existing email
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        req.flash("error_msg", "Email is already registered");
+        req.flash("error", "Email is already registered");
         return res.redirect("/register-view");
       }
 
@@ -99,10 +107,10 @@ class AuthCOntroller {
       await newUser.save();
 
       req.flash("success_msg", "User registered successfully. Please log in.");
-      res.redirect("/login-view");
+      res.redirect("/register-view");
     } catch (error) {
       console.error("Registration Error:", error);
-      req.flash("error_msg", "Server error while registering user");
+      req.flash("error", "Server error while registering user");
       res.redirect("/register-view");
     }
   }
@@ -167,43 +175,81 @@ class AuthCOntroller {
     }
   }
 
-  async dashboard(req, res) {
-    try {
-      const userData = await User.findById(req.user.id);
+async  dashboard(req, res) {
+  try {
+    const userData = await User.findById(req.user.id);
 
-      // Count users by roles
-      const adminCount = (await User.find({ role: "Admin" })).length;
-      const userCount = (await User.find({ role: "User" })).length;
-      const employeeCount = (await User.find({ role: "Employee" })).length;
-      const executiveCount = (await User.find({ role: "Executive" })).length;
+    const [adminCount, userCount, employeeCount, executiveCount] = await Promise.all([
+      User.countDocuments({ role: "Admin" }),
+      User.countDocuments({ role: "User" }),
+      User.countDocuments({ role: "Employee" }),
+      User.countDocuments({ role: "Executive" }),
+    ]);
 
-      // Count restaurants
-      const restaurantCount = (await Restaurant.find()).length;
+    const [restaurantCount, vegMenuCount, nonVegMenuCount, totalOrderCount] = await Promise.all([
+      Restaurant.countDocuments(),
+      MenuItem.countDocuments({ isVeg: true }),
+      MenuItem.countDocuments({ isVeg: false }),
+      Order.countDocuments(),
+    ]);
 
-      // Count menu items by type
-      const vegMenuCount = (await MenuItem.find({ isVeg: true })).length;
-      const nonVegMenuCount = (await MenuItem.find({ isVeg: false })).length;
+    const orders = await Order.find();
 
-       // Count of all orders
-    const totalOrderCount = (await Order.find()).length;
+    // Group orders by day for chart
+    const dailyData = {};
+    const monthlyRevenue = {};
 
-      res.render("dashboard", {
-        title: "Dashboard",
-        data: userData,
-        adminCount,
-        userCount,
-        employeeCount,
-        executiveCount,
-        restaurantCount,
-        vegMenuCount,
-        nonVegMenuCount,
-        totalOrderCount
-      });
-    } catch (error) {
-      console.log("Dashboard error:", error);
-      res.status(500).send("Internal Server Error");
-    }
+    orders.forEach(order => {
+      const date = moment(order.createdAt).format("YYYY-MM-DD");
+      const month = moment(order.createdAt).format("YYYY-MM");
+
+      // Daily Orders & Collection
+      if (!dailyData[date]) {
+        dailyData[date] = { count: 0, total: 0 };
+      }
+      dailyData[date].count += 1;
+      dailyData[date].total += order.totalAmount;
+
+      // Monthly Revenue
+      if (!monthlyRevenue[month]) {
+        monthlyRevenue[month] = 0;
+      }
+      monthlyRevenue[month] += order.totalAmount;
+    });
+
+    // Prepare data arrays for charts
+    const sortedDaily = Object.entries(dailyData).sort(([a], [b]) => new Date(a) - new Date(b));
+    const dailyLabels = sortedDaily.map(([date]) => date);
+    const orderCounts = sortedDaily.map(([, data]) => data.count);
+    const dailyTotals = sortedDaily.map(([, data]) => data.total);
+
+    const sortedMonthly = Object.entries(monthlyRevenue).sort(([a], [b]) => new Date(a) - new Date(b));
+    const monthlyLabels = sortedMonthly.map(([month]) => month);
+    const monthlyTotals = sortedMonthly.map(([, total]) => total);
+
+    res.render("dashboard", {
+      title: "Dashboard",
+      data: userData,
+      adminCount,
+      userCount,
+      employeeCount,
+      executiveCount,
+      restaurantCount,
+      vegMenuCount,
+      nonVegMenuCount,
+      totalOrderCount,
+      dailyLabels: JSON.stringify(dailyLabels),
+      orderCounts: JSON.stringify(orderCounts),
+      dailyTotals: JSON.stringify(dailyTotals),
+      monthlyLabels: JSON.stringify(monthlyLabels),
+      monthlyTotals: JSON.stringify(monthlyTotals),
+    });
+  } catch (error) {
+    console.error("Dashboard error:", error);
+    res.status(500).send("Internal Server Error");
   }
+}
+
 
   async proflie(req, res) {
     try {
@@ -265,6 +311,40 @@ class AuthCOntroller {
       res.redirect("/login-view");
     } catch (err) {
       console.log(err);
+    }
+  }
+
+   // Delete Employee
+  async AdminDelete(req, res) {
+    try {
+      const user = await User.findById(req.params.id);
+  
+      if (!user) {
+        req.flash('error', 'Employee not found.');
+        return res.redirect('/register-view');
+      }
+  
+      // Delete the profile image from disk if it exists
+      if (user.image) {
+        fs.unlink(user.image, (err) => {
+          if (err) {
+            console.error('Error deleting image:', err);
+          } else {
+            console.log('Profile image deleted:', user.image);
+          }
+        });
+      }
+  
+      // Delete the user from DB
+      await User.findByIdAndDelete(req.params.id);
+  
+      req.flash('success_emp', 'Employee deleted successfully.');
+      res.redirect('/register-view');
+  
+    } catch (err) {
+      console.error('Error deleting employee:', err);
+      req.flash('error', 'Something went wrong while deleting the employee.');
+      res.redirect('/register-view');
     }
   }
 }

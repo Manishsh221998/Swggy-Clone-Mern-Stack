@@ -5,6 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const morgan = require("morgan");
 
 const connectDB = require("./app/config/db");
 const router = require("./app/router/routing");
@@ -23,11 +24,13 @@ connectDB();
 
 // Initialize app
 const app = express();
-
+// app.use(morgan('dev'))
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",  
-  credentials: true, // allow cookies and sessions
+   origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static('uploads'));

@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema(
       minlength: [4, 'Password must be at least 4 characters'],
       select: false, // hide password by default when querying
     },
+    mobile:{
+      type :Number
+    },
     roleId: {
       type: mongoose.Schema.Types.ObjectId,
        ref: 'roles',
@@ -42,8 +45,7 @@ const userSchema = new mongoose.Schema(
         city: { type: String, trim: true },
         state: { type: String, trim: true },
         zipCode: { type: String, trim: true },
-        phone: { type: String, trim: true },
-       }
+        }
     ],
  
   },

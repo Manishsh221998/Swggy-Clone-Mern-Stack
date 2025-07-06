@@ -26,6 +26,16 @@ class RestaurantController {
     }
   }
 
+  // List all menuItems
+   async menuItems(req, res) {
+    try {
+      const nmenuItem = await MenuItem.find()
+      res.status(200).json({ success: true,totalCount:nmenuItem.length,data: nmenuItem });
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Error fetching menu items', error: error.message });
+    }
+  }
+  
  // Get single restaurant details with menu using aggregation
  async getRestaurantWithMenu(req, res) {
     try {

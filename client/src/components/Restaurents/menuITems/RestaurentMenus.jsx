@@ -6,7 +6,7 @@ import {
   decreaseCartItem
 } from '../../../redux/cartSlice';
 import {
-  TextField, ToggleButton, ToggleButtonGroup, Card, Typography, Button, Grid, Chip,
+  TextField, Card, Typography, Button, Grid, Chip,
   Box, Stack, IconButton, Container, Divider, Modal, Fade, Backdrop
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -15,6 +15,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import RestaurentHeader from './RestaurentHeader';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const RestaurentMenus = ({ data }) => {
   const dispatch = useDispatch();
@@ -69,6 +70,37 @@ const RestaurentMenus = ({ data }) => {
       return 0;
     });
 
+  // Animation variants
+  const menuItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    },
+    hover: {
+      y: -3,
+      transition: { 
+        type: "spring",
+        stiffness: 300,
+        damping: 10
+      }
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
   return (
     <>
       <Container style={{ padding: '20px', fontFamily: 'Arial' }} maxWidth="md">
@@ -87,121 +119,241 @@ const RestaurentMenus = ({ data }) => {
           <Divider textAlign="center">MENU</Divider>
         </Typography>
 
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Search by name or price"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{ startAdornment: <SearchIcon style={{ marginRight: 8 }} /> }}
-          sx={{ marginBottom: 5 }}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Search by name or price"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{ startAdornment: <SearchIcon style={{ marginRight: 8 }} /> }}
+            sx={{ marginBottom: 5 }}
+          />
+        </motion.div>
 
-        <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
-          <Grid item>
-            <ToggleButtonGroup value={filterType} exclusive onChange={(e, val) => val && setFilterType(val)}>
-              <ToggleButton value="all">All</ToggleButton>
-              <ToggleButton value="veg">Veg</ToggleButton>
-              <ToggleButton value="non-veg">Non-Veg</ToggleButton>
-            </ToggleButtonGroup>
-          </Grid>
-          <Grid item>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
+        >
+          <Box sx={{ display: 'flex', gap: 2, mb:3, flexWrap: 'wrap' }}>
+            {/* Swiggy-style Veg/Non-Veg filter buttons */}
+            <Button
+              variant={filterType === 'all' ? 'contained' : 'outlined'}
+              onClick={() => setFilterType('all')}
+              sx={{
+                borderRadius: '20px',
+                textTransform: 'none',
+                fontWeight: 600,
+                 px: 2,
+                color: filterType === 'all' ? '#fff' : 'inherit',
+                backgroundColor: filterType === 'all' ? '#fc8019' : 'transparent',
+                borderColor: '#e0e0e0',
+                '&:hover': {
+                  backgroundColor: filterType === 'all' ? '#e67317' : 'rgba(252, 128, 25, 0.08)',
+                  borderColor: '#fc8019'
+                }
+              }}
+            >
+              All Items
+            </Button>
+            
+           <Button
+  variant="outlined" // Always outlined
+  onClick={() => setFilterType('veg')}
+  sx={{
+    borderRadius: '20px',
+    textTransform: 'none',
+    fontWeight: 600,
+    px: 2,
+    color: filterType === 'veg' ? '#2e7d32' : '#6b6b6b', // Professional green when selected, gray when not
+    backgroundColor: 'transparent', // Always transparent
+    borderColor: filterType === 'veg' ? '#2e7d32' : '#e0e0e0', // Green border when selected, light gray when not
+    '&:hover': {
+      backgroundColor: 'rgba(46, 125, 50, 0.04)', // Very subtle green tint on hover
+      borderColor: '#2e7d32' // Full green on hover
+    },
+    transition: 'all 0.3s ease',
+    borderWidth: '1.5px'
+  }}
+  startIcon={<VegIcon />}
+>
+  Veg
+</Button>
+
+<Button
+  variant="outlined" // Always outlined
+  onClick={() => setFilterType('non-veg')}
+  sx={{
+    borderRadius: '20px',
+    textTransform: 'none',
+    fontWeight: 600,
+    px: 2,
+    color: filterType === 'non-veg' ? '#c62828' : '#6b6b6b', // Professional red when selected, gray when not
+    backgroundColor: 'transparent', // Always transparent
+    borderColor: filterType === 'non-veg' ? '#c62828' : '#e0e0e0', // Red border when selected, light gray when not
+    '&:hover': {
+      backgroundColor: 'rgba(198, 40, 40, 0.04)', // Very subtle red tint on hover
+      borderColor: '#c62828' // Full red on hover
+    },
+    transition: 'all 0.3s ease',
+    borderWidth: '1.5px'
+  }}
+  startIcon={<NonVegIcon />}
+>
+  Non-Veg
+</Button>
+
+            <Box sx={{ flexGrow: 1 }} />
+            
             <Stack direction="row" spacing={1}>
-              <Chip label="Price Low to High" variant={sortOrder === 'low' ? 'filled' : 'outlined'} onClick={() => setSortOrder('low')} />
-              <Chip label="Price High to Low" variant={sortOrder === 'high' ? 'filled' : 'outlined'} onClick={() => setSortOrder('high')} />
+              <Chip 
+                label="Price: Low to High" 
+                variant={sortOrder === 'low' ? 'filled' : 'outlined'} 
+                onClick={() => setSortOrder(sortOrder === 'low' ? 'none' : 'low')}
+                sx={{
+                  borderRadius: '16px',
+                  backgroundColor: sortOrder === 'low' ? '#fc8019' : 'transparent',
+                  color: sortOrder === 'low' ? '#fff' : 'inherit'
+                }}
+              />
+              <Chip 
+                label="Price: High to Low" 
+                variant={sortOrder === 'high' ? 'filled' : 'outlined'} 
+                onClick={() => setSortOrder(sortOrder === 'high' ? 'none' : 'high')}
+                sx={{
+                  borderRadius: '16px',
+                  backgroundColor: sortOrder === 'high' ? '#fc8019' : 'transparent',
+                  color: sortOrder === 'high' ? '#fff' : 'inherit'
+                }}
+              />
             </Stack>
-          </Grid>
-        </Grid>
+          </Box>
+        </motion.div>
 
-        <Grid container spacing={3}>
-          {filteredMenu.map((item) => (
-            <Grid item xs={12} sm={12} md={6} key={item._id}>
-              <Card elevation={0} sx={{ py: 3.5, boxShadow: 'none', border: 'none' }}>
-                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row-reverse' }, alignItems: 'flex-start' }}>
-                  <Box sx={{ width: { xs: '100%', sm: 200 }, mb: { xs: 2, sm: 0 }, ml: { sm: 2 }, position: 'relative' }}>
-                    <img
-                      src={`http://localhost:3001/${item.image}`}
-                      alt={item.name}
-                      onClick={() => handleOpenModal(item)}
-                      style={{ width: '100%', height: '174px', objectFit: 'cover', borderRadius: 10, cursor: 'pointer' }}
-                    />
+        <Grid 
+          container 
+          spacing={3}
+          component={motion.div}
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          <AnimatePresence>
+            {filteredMenu.map((item) => (
+              <Grid 
+                item 
+                xs={12} 
+                sm={12} 
+                md={6} 
+                key={item._id}
+                component={motion.div}
+                layout
+                variants={menuItemVariants}
+                // whileHover="hover"
+              >
+                <Card 
+                  elevation={0} 
+                  sx={{ 
+                    py: 3.5, 
+                    boxShadow: 'none', 
+                    border: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row-reverse' }, alignItems: 'flex-start' }}>
+                    {/* Image without animation */}
+                    <Box sx={{ width: { xs: '100%', sm: 200 }, mb: { xs: 2, sm: 0 }, ml: { sm: 2 }, position: 'relative' }}>
+                      <img
+                        src={`http://localhost:3001/${item.image}`}
+                        alt={item.name}
+                        onClick={() => handleOpenModal(item)}
+                        style={{ width: '100%', height: '174px', objectFit: 'cover', borderRadius: 10, cursor: 'pointer' }}
+                      />
 
-                    {cart[item._id] ? (
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        justifyContent="center"
-                        boxShadow={3}
-                        sx={{
-                          position: 'absolute',
-                          bottom: -18,
-                          px: 3,
-                          py: 0.4,
-                          left: '50%',
-                          fontWeight: 700,
-                          borderRadius: 3,
-                          transform: 'translateX(-50%)',
-                          zIndex: 1,
-                          backgroundColor: 'white',
-                          color: 'green',
-                          fontSize: '15px'
-                        }}
-                      >
-                        <IconButton size="small" onClick={() => handleRemove(item._id)}>
-                          <RemoveIcon sx={{ color: 'green' }} />
-                        </IconButton>
-                        <Typography>{cart[item._id]}</Typography>
-                        <IconButton size="small" onClick={() => handleAdd(item._id)}>
-                          <AddIcon sx={{ color: 'green' }} />
-                        </IconButton>
+                      {/* Quantity controls without animation */}
+                      {cart[item._id] ? (
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          alignItems="center"
+                          justifyContent="center"
+                          boxShadow={3}
+                          sx={{
+                            position: 'absolute',
+                            bottom: -18,
+                            px: 3,
+                            py: 0.4,
+                            left: '50%',
+                            fontWeight: 700,
+                            borderRadius: 3,
+                            transform: 'translateX(-50%)',
+                            zIndex: 1,
+                            backgroundColor: 'white',
+                            color: 'green',
+                            fontSize: '15px'
+                          }}
+                        >
+                          <IconButton size="small" onClick={() => handleRemove(item._id)}>
+                            <RemoveIcon sx={{ color: 'green' }} />
+                          </IconButton>
+                          <Typography>{cart[item._id]}</Typography>
+                          <IconButton size="small" onClick={() => handleAdd(item._id)}>
+                            <AddIcon sx={{ color: 'green' }} />
+                          </IconButton>
+                        </Stack>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            position: 'absolute',
+                            bottom: -18,
+                            px: 7,
+                            py: 1,
+                            left: '50%',
+                            borderRadius: 3,
+                            fontWeight: 700,
+                            transform: 'translateX(-50%)',
+                            zIndex: 1,
+                            backgroundColor: 'white',
+                            color: 'green',
+                            fontSize: '14px'
+                          }}
+                          onClick={() => handleAdd(item._id)}
+                        >
+                          ADD
+                        </Button>
+                      )}
+                    </Box>
+
+                    <Box flex={1}>
+                      <Stack direction="row" alignItems="center" spacing={1} sx={{mb:1.5}}>
+                        {item.isVeg ? <VegIcon /> : <NonVegIcon />}
                       </Stack>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        sx={{
-                          position: 'absolute',
-                          bottom: -18,
-                          px: 7,
-                          py: 1,
-                          left: '50%',
-                          borderRadius: 3,
-                          fontWeight: 700,
-                          transform: 'translateX(-50%)',
-                          zIndex: 1,
-                          backgroundColor: 'white',
-                          color: 'green',
-                          fontSize: '14px'
-                        }}
-                        onClick={() => handleAdd(item._id)}
-                      >
-                        ADD
-                      </Button>
-                    )}
+
+                      <Typography variant="h6" gutterBottom>{item.name}</Typography>
+
+                      <Typography sx={{ color: 'revert', fontWeight: 600, letterSpacing: 0.6 }}>₹{item.price}</Typography>
+
+                      {/* Rating without animation */}
+                      <Stack direction="row" alignItems="center" spacing={1} my={0.5}>
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>⭐ {item.rating}</Typography>
+                        <Typography variant="caption" color="textSecondary">({item.totalRatings} ratings)</Typography>
+                      </Stack>
+
+                      <Typography variant="body2" sx={{ mt: 1,color:'GrayText' }}>{item.description}</Typography>
+                    </Box>
                   </Box>
-
-                  <Box flex={1}>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      {item.isVeg ? <VegIcon /> : <NonVegIcon />}
-                    </Stack>
-
-                    <Typography variant="h6" gutterBottom>{item.name}</Typography>
-
-                    <Typography sx={{ color: 'revert', fontWeight: 600, letterSpacing: 0.6 }}>₹{item.price}</Typography>
-
-                    <Stack direction="row" alignItems="center" spacing={1} my={0.5}>
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>⭐ {item.rating}</Typography>
-                      <Typography variant="caption" color="textSecondary">({item.totalRatings} ratings)</Typography>
-                    </Stack>
-
-                    <Typography variant="body2" sx={{ mt: 1 }}>{item.description}</Typography>
-                  </Box>
-                </Box>
-              </Card>
-              <Divider sx={{ my: 1.2 }} />
-            </Grid>
-          ))}
+                </Card>
+                <Divider sx={{ my: 1.2 }} />
+              </Grid>
+            ))}
+          </AnimatePresence>
         </Grid>
       </Container>
 
@@ -266,6 +418,7 @@ const RestaurentMenus = ({ data }) => {
   );
 };
 
+// Your original Veg/Non-Veg icons
 const VegIcon = () => (
   <Box component="span" sx={{
     display: 'inline-block', width: 16, height: 16,

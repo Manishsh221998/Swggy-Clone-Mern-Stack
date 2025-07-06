@@ -181,6 +181,6 @@ const RestaurentHeader = ({ restaurant }) => {
     </Box>
     
   );
-};
+}
 
 export default RestaurentHeader;

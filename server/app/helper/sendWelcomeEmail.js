@@ -3,18 +3,18 @@ require("dotenv").config();
 
 const sendWelcomeEmail = async (user) => {
   try {
-    const subject = "Welcome to Swiggy - Food Delivery App";
+    const subject = "Welcome to EatZy - Food Delivery App";
 
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; padding: 30px;">
         <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
           <div style="text-align: center;">
-            <h1 style="color: #fc8019; margin-bottom: 10px;">Welcome to Swiggy!</h1>
+            <h1 style="color: #fc8019; margin-bottom: 10px;">Welcome to EatZy!</h1>
             <p style="color: #555; font-size: 16px;">Hi <strong>${user.name}</strong>,</p>
           </div>
 
           <p style="font-size: 15px; color: #555;">
-            We’re excited to have you onboard at <strong>Swiggy (Food Delivery App)</strong>! Your account has been successfully verified.
+            We’re excited to have you onboard at <strong>EatZy (Food Delivery App)</strong>! Your account has been successfully verified.
           </p>
 
           <p style="font-size: 15px; color: #555;">
@@ -34,15 +34,15 @@ const sendWelcomeEmail = async (user) => {
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
 
           <p style="font-size: 12px; color: #aaa; text-align: center;">
-            You’re receiving this email because you registered on Swiggy.<br/>
-            &copy; ${new Date().getFullYear()} Swiggy (Food Delivery App)
+            You’re receiving this email because you registered on EatZy.<br/>
+            &copy; ${new Date().getFullYear()} EatZy (Food Delivery App)
           </p>
         </div>
       </div>
     `;
 
     const info = await transporter.sendMail({
-      from: `"Swiggy (Food Delivery App)" <${process.env.EMAIL_FROM}>`,
+      from: `"EatZy (Food Delivery App)" <${process.env.EMAIL_FROM}>`,
       to: user.email,
       subject,
       html

@@ -14,7 +14,7 @@ class UserControler {
 
   async createUser(req, res) {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password ,mobile} = req.body;
 
       if (!(name && email && password)) {
         return res.status(400).json({
@@ -44,6 +44,7 @@ class UserControler {
       const user = new User({
         name,
         email,
+        mobile,
         password: hashPasword,
         roleId:role._id,
         role: role.name,
@@ -299,15 +300,16 @@ const decode= jwt.verify(token,new_secret)
 
 async updateUserProfile(req, res) {
   try {
-    const { name,email } = req.body;
+    const { name,email,mobile} = req.body;
     const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ status: false, message: 'User not found' });
     }
 
-     if (name||email) {
+     if (name||email||mobile) {
       user.name = name;
       user.email=email
+      user.mobile=mobile
     }
 
      if (req.file) {

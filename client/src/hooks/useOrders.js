@@ -7,7 +7,9 @@ import {
   decreaseCartItem,
   removeFromCart,
   clearCart,
-  placeOrder
+  placeOrder,
+  createOrder,
+  verifyPayment
 } from '../api/apiHandler';
 
 // ----------------------
@@ -101,6 +103,29 @@ export const usePlaceOrder = () => {
     },
     onError: (error) => {
       const message = error?.response?.data?.message || "Order failed!";
+      toast.error(message);
+    },
+  });
+};
+
+export const useCreateRazorpayOrder = () => {
+  return useMutation({
+    mutationFn: createOrder,
+    onError: (error) => {
+      const message = error?.response?.data?.message || "Failed to create Razorpay order.";
+      toast.error(message);
+    }
+  });
+};
+
+export const useVerifyPayment = () => {
+  return useMutation({
+    mutationFn: verifyPayment,
+    onSuccess: (data) => {
+      toast.success(data?.data?.message || "Payment verified and order placed!");
+    },
+    onError: (error) => {
+      const message = error?.response?.data?.message || "Payment verification failed!";
       toast.error(message);
     },
   });

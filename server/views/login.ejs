@@ -2,66 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title><%= title %></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Helvetica Neue', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #fef3e6, #ffffff);
-      min-height: 100vh;
-    }
-
-    .main-container {
       display: flex;
-      flex-direction: row;
-      min-height: 100vh;
-      width: 100%;
-    }
-
-    .login-left,
-    .login-right {
-      width: 50%;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 40px;
+      align-items: center;
+      padding: 1rem;
     }
 
-    .login-left {
-      background-color: #fff;
-    }
-
-    .login-right {
-      background-color: #fef3e6;
-    }
-
-    .login-right img {
+    .container {
+      background: #fff;
+      width: 960px;
       max-width: 100%;
-      height: auto;
-    }
-
-    .login-form-card {
-      width: 100%;
-      max-width: 420px;
-      background-color: #fff;
-      padding: 35px 30px;
+      display: flex;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      min-height: 480px;
     }
 
-    .brand {
-      color: #fc8019;
-      font-weight: bold;
+    .left-panel {
+      flex: 1 1 50%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      border-right: 1px solid #eee;
+    }
+
+    .left-panel img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .right-panel {
+      flex: 1 1 50%;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .brand-logo-animated {
       font-size: 32px;
-      margin-bottom: 16px;
+      font-weight: 800;
+      font-family: "Playfair Display", serif;
       text-align: center;
+      letter-spacing: 3px;
+      background: linear-gradient(45deg, #fb7d00 0%, #f70901 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 0 4px;
+      cursor: default;
+    }
+
+    /* .brand-logo-animated::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #FF512F, #DD2476);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .brand-logo-animated:hover::after {
+      transform: scaleX(1);
+    } */
+
+    .form-title {
+      text-align: center;
+      font-weight: 600;
+      font-size: 20px;
+      color: #666;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
     }
 
     .form-label {
-      font-weight: 500;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
       color: #2f1601;
     }
 
@@ -69,6 +112,13 @@
       border-radius: 12px;
       padding: 12px;
       font-size: 15px;
+      border: 1px solid #ddd;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #fc8019;
+      box-shadow: none;
     }
 
     .btn-orange {
@@ -78,7 +128,7 @@
       padding: 12px;
       font-weight: 600;
       border-radius: 12px;
-      width: 100%;
+      transition: background-color 0.3s ease;
     }
 
     .btn-orange:hover {
@@ -100,88 +150,89 @@
       text-decoration: underline;
     }
 
+    .alert {
+      font-size: 14px;
+    }
+
     @media (max-width: 768px) {
-      .main-container {
-         padding-bottom: 50px;
+      .container {
+        flex-direction: column;
       }
 
-      .login-left,
-      .login-right {
-        width: 100%;
-      }
-
-      .login-right {
-        order: 1;
-        padding: 20px;
-      }
-
-      .login-left {
-        order: 2;
-        /* padding: 20px; */
+      .left-panel {
         display: none;
+      }
+
+      .right-panel {
+        padding: 2rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="main-container">
-    <!-- RIGHT: IMAGE -->
-    <div class="login-left">
-      <img src="/images/login-illustration.webp" alt="Login illustration" />
+  <div class="container" style="padding-top:26px;padding-bottom: 20px;">
+    <!-- Illustration -->
+    <div class="left-panel">
+      <img src="/image/img/adminLoginPage.png" alt="Login Illustration" />
     </div>
 
-    <!-- LEFT: FORM -->
-    <div class="login-right">
-      <div class="login-form-card">
-        <div class="brand">Swiggy</div>
-        <h5 class="text-center mb-4">Welcome back! Login to continue</h5>
+    <!-- Login Form -->
+    <div class="right-panel" style="margin-bottom: 26px;">
+      <div class="brand-logo-animated">EatZy</div>
+      <div class="form-title">Login to continue</div>
+      <hr>  
 
-        <!-- Flash messages -->
-        <% if (success_msg && success_msg.length > 0) { %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= success_msg %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% } %>
-
-        <% if (error_msg && error_msg.length > 0) { %>
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <%= error_msg %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% } %>
-
-        <form method="POST" action="/login">
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="enter@email.com" />
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="********" />
-          </div>
-          <button type="submit" class="btn btn-orange">Login</button>
-        </form>
-
-        <div class="auth-links mt-4">
-          <p><a href="/forgotPassword">Forgot Password?</a></p>
-          <p><a href="/register-view">Don't have an account? Sign up</a></p>
+      <!-- Flash messages -->
+      <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= success_msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+      <% } %>
+
+      <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= error_msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <!-- Form -->
+      <form method="POST" action="/login">
+        <div>
+          <label for="email" class="form-label mt-2">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="enter@email.com" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="********" required  />
+        </div>
+
+        <button type="submit" class="btn btn-orange">Login</button>
+      </form>
+
+      <!-- Auth Links -->
+      <!--
+      <div class="auth-links mt-3">
+        <p><a href="/forgotPassword">Forgot Password?</a></p>
+        <p><a href="/register-view">Don't have an account? Sign up</a></p>
       </div>
+      -->
+
     </div>
   </div>
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Auto dismiss alerts after 3 seconds
+    // Auto-dismiss alerts after 3 seconds
     setTimeout(() => {
-      const alerts = document.querySelectorAll('.alert');
-      alerts.forEach(alert => {
+      document.querySelectorAll('.alert').forEach(alert => {
         const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
         bsAlert.close();
       });
-    }, 500);
+    }, 3000);
   </script>
 </body>
 </html>

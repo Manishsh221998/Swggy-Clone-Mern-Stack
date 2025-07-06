@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const sendOrderConfirmationEmail = async (user, order) => {
   try {
-    const subject = "Your Order Confirmation – Swiggy";
+    const subject = "Your Order Confirmation – EatZy";
 
     const itemsHtml = order.items.map((item, index) => `
       <tr style="border-bottom: 1px solid #eee;">
@@ -23,7 +23,7 @@ const sendOrderConfirmationEmail = async (user, order) => {
           </div>
 
           <p style="font-size: 15px; color: #555;">
-            Thank you for your order from <strong>Swiggy</strong>! Below are the details of your order placed on <strong>${new Date(order.createdAt).toLocaleString()}</strong>.
+            Thank you for your order from <strong>EatZy</strong>! Below are the details of your order placed on <strong>${new Date(order.createdAt).toLocaleString()}</strong>.
           </p>
 
 <h4 style="margin-top: 20px;">Order ID: <span style="color: #555;">#ORD${order._id.toString().slice(-6).toUpperCase()}</span></h4>
@@ -60,15 +60,15 @@ const sendOrderConfirmationEmail = async (user, order) => {
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
 
           <p style="font-size: 12px; color: #aaa; text-align: center;">
-            You’re receiving this email because you placed an order on Swiggy.<br/>
-            &copy; ${new Date().getFullYear()} Swiggy (Food Delivery App)
+            You’re receiving this email because you placed an order on EatZy.<br/>
+            &copy; ${new Date().getFullYear()} EatZy (Food Delivery App)
           </p>
         </div>
       </div>
     `;
 
     const info = await transporter.sendMail({
-      from: `"Swiggy (Food Delivery App)" <${process.env.EMAIL_FROM}>`,
+      from: `"EatZy (Food Delivery App)" <${process.env.EMAIL_FROM}>`,
       to: user.email,
       subject,
       html

@@ -7,7 +7,6 @@ import {
   CardMedia,
   CardContent,
   Chip,
-  Stack,
   Container,
   useTheme,
   useMediaQuery,
@@ -16,16 +15,15 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Button,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link, useParams } from "react-router-dom";
 import { useRestaurantsByCategory } from "../../hooks/useRestaurants";
+import { motion, AnimatePresence } from "framer-motion";
 
 const RestaurentsList = () => {
   const { categoryId } = useParams();
   const { data } = useRestaurantsByCategory(categoryId);
-// console.log(data?.data?.data)
   const restaurants = data?.data?.data || [];
   const category = data?.data?.category;
 
@@ -35,6 +33,37 @@ const RestaurentsList = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // Animation variants for cards only
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    },
+    hover: {
+      y: -5,
+      transition: { 
+        type: "spring",
+        stiffness: 300,
+        damping: 10
+      }
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
 
   // Dynamic filter collections
   const allTags = [...new Set(restaurants.flatMap((r) => r.tags || []))];
@@ -77,9 +106,10 @@ const RestaurentsList = () => {
       <Typography variant="subtitle1" color="text.secondary" mb={2}>
         {category?.description}
       </Typography>
+      
       <Divider sx={{ my: 3 }} />
 
-      {/* Filters */}
+      {/* Filters - No animations applied */}
       <Box
         sx={{
           display: "flex",
@@ -148,44 +178,38 @@ const RestaurentsList = () => {
         </FormControl>
       </Box>
 
-      {/* <Divider sx={{ my: 3 }} /> */}
-
       <Typography variant="h4" fontWeight={600} mb={3}>
-  Restaurants to explore 
+        Restaurants to explore
       </Typography>
 
-      <Grid
-        container
-        spacing={3}
-        sx={{ justifyContent: { xs: "center", md: "start" } }}
-      >
-        {filtered.length <=0? (
+      <AnimatePresence>
+        {filtered.length <= 0 ? (
           <Box 
-  sx={{ 
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-     p: 4,
-    maxWidth: 600,
-    mx: 'auto'
-  }}
->
-  <CardMedia
-    component="img"
-    image="/no_restaurnt_add.png"  
-    alt="No restaurants illustration"
-    sx={{
-      height: 240,
-      width: 240,
-      objectFit: 'contain',
-      mb: 1,
-      opacity: 0.8
-    }}
-  />
-  
-  <Typography
+            sx={{ 
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+              p: 4,
+              maxWidth: 600,
+              mx: 'auto'
+            }}
+          >
+            <CardMedia
+              component="img"
+              image="/no_restaurnt_add.png"  
+              alt="No restaurants illustration"
+              sx={{
+                height: 240,
+                width: 240,
+                objectFit: 'contain',
+                mb: 1,
+                opacity: 0.8
+              }}
+            />
+            
+            <Typography
               variant="h4"
               color="text.secondary"
               fontWeight={700}
@@ -193,40 +217,46 @@ const RestaurentsList = () => {
             >
               Oops..! No restaurants found
             </Typography>
-  
-  <Typography variant="body1" color="text.secondary">
+            
+            <Typography variant="body1" color="text.secondary">
               No restaurants have been added for this category yet.
             </Typography>
-  
- 
-</Box>
+          </Box>
         ) : (
           <Grid
             container
             spacing={3}
             sx={{ justifyContent: { xs: "center", md: "start" } }}
+            component={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
           >
             {filtered.map((res) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={res._id}>
-                <Link to={`restaurent-wise-menus/${res._id}`}>
+              <Grid 
+                item 
+                xs={12} 
+                sm={6} 
+                md={4} 
+                lg={3} 
+                key={res._id}
+                component={motion.div}
+                layout
+                variants={cardVariants}
+                whileHover="hover"
+              >
+                <Link to={`restaurent-wise-menus/${res._id}`} style={{ textDecoration: "none" }}>
                   <Card
                     sx={{
                       width: 270,
                       height: 300,
                       borderRadius: 4,
                       boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                      transition: "0.3s",
-                      display: "flex",
-                      flexDirection: "column",
-                      "&:hover": {
-                        transform: "translateY(-2px)",
-                        boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
-                      },
+                      transition: "all 0.3s ease",
                     }}
                   >
-                    <Box
-                      sx={{ width: "100%", height: 160, overflow: "hidden" }}
-                    >
+                    {/* Image with no animation */}
+                    <Box sx={{ width: "100%", height: 160, overflow: "hidden" }}>
                       <CardMedia
                         component="img"
                         image={`http://localhost:3001/${res.image}`}
@@ -238,7 +268,8 @@ const RestaurentsList = () => {
                           borderRadius: 1,
                         }}
                       />
-                     </Box>
+                    </Box>
+                    
                     <CardContent
                       sx={{
                         p: 2,
@@ -263,6 +294,7 @@ const RestaurentsList = () => {
                         {res.name}
                       </Typography>
  
+                      {/* Rating with no animation */}
                       <Box
                         sx={{
                           display: "flex",
@@ -321,7 +353,7 @@ const RestaurentsList = () => {
             ))}
           </Grid>
         )}
-      </Grid>
+      </AnimatePresence>
     </Container>
   );
 };

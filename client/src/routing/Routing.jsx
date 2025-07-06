@@ -14,7 +14,8 @@ import RestaurentsList from "../components/Restaurents/RestaurentsList";
 import RestaurentWiseMenus from "../components/Restaurents/RestaurentWiseMenus";
 import CartPage from "../components/Cart/CartPage";
 import Footer from "../layout/Footer/Footer";
-   
+import Menu from "../components/Menu/Menu";
+    
 // import NotFoundPage from './pages/NotFoundPage';
 // import { useAuth } from './context/AuthContext';
 
@@ -27,7 +28,7 @@ const Routing = () => {
   return (
     <Router>
       <Header />
-        <Routes>
+         <Routes>
                 {/* Public Routes */}
 
         <Route path="/" element={<Home />} />
@@ -44,6 +45,7 @@ const Routing = () => {
           element={<RestaurentWiseMenus />}
         />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/Menu" element={<Menu />} />
  
 
         {/* Protected Routes

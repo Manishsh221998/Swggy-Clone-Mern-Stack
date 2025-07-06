@@ -16,12 +16,15 @@ const ENDPOINTS = {
 // Restaurant & Menu  
   MENU_CATEGORY: '/menuCategory-list',  
   RESTAURANTS_LIST: '/restaurant-list',
+  MENUITEMS_LIST: '/menuItems-list',
   RESTAURANT_WITH_MENU: (id) => `/restaurant-with-menu/${id}`,
   RESTAURANTS_BY_CATEGORY: (categoryId) => `/category/${categoryId}`,
 
   // Orders
   PLACE_ORDER: '/order/place-order',
   MY_ORDERS: '/orders',
+  RAZORPAY_CREATE_ORDER:'/razorpay/create-order',
+  RAZORPAY_VERIFY_AND_PLACE_ORDER:'/razorpay/verify',
 
   // Cart
 GET_CART: '/cart',

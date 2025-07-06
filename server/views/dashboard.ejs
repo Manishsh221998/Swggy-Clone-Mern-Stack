@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>Admin - <%= title %></title>
 
   <!-- Fonts -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700,900" rel="stylesheet">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <link href="/https://fonts.googleapis.com/css?family=Nunito:200,300,400,700,900" rel="stylesheet" />
 
   <!-- Styles -->
-  <link href="stylesheet/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="/stylesheet/css/sb-admin-2.min.css" rel="stylesheet" />
+
   <style>
     body {
       font-family: 'Nunito', sans-serif;
@@ -27,7 +28,6 @@
       color: #fc8019;
       font-weight: 700;
       font-size: 24px;
-      margin: 0;
     }
 
     .btn-primary {
@@ -71,177 +71,229 @@
     }
 
     .list-group-item {
-  font-weight: 500;
-  font-size: 16px;
-}
- 
-.list-group-item i {
-  width: 25px;
-}
+      font-weight: 500;
+      font-size: 16px;
+    }
 
+    .list-group-item i {
+      width: 25px;
+    }
+
+    .chart-equal-height {
+      height: 100%;
+      min-height: 380px;
+    }
+
+    .card-body canvas {
+      width: 100% !important;
+      height: 300px !important;
+    }
   </style>
 </head>
 
 <body id="page-top">
-  <!-- Page Wrapper -->
   <div id="wrapper">
     <!-- Sidebar -->
     <%- include("layout/sidebar.ejs") %>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-      <!-- Main Content -->
       <div id="content">
         <!-- Topbar -->
-        <%- include('layout/topbar.ejs') %>
+        <%- include("layout/topbar.ejs") %>
 
-        <!-- Begin Page Content -->
+        <!-- Page Content -->
         <div class="container-fluid">
-          <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
               <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
-            </a>
+            </a> -->
           </div>
 
-<!-- Section: User Statistics -->
-<div class="row">
-  <!-- User Statistics Card -->
-  <div class="col-12 col-md-6 mb-4">
-    <div class="card shadow border-left-primary h-100">
-      <div class="card-header bg-light font-weight-bold text-primary">
-        <i class="fas fa-users-cog me-4"></i>  User Statistics
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-user-shield text-primary me-2"></i> Admins</span>
-          <span class="text-dark"><%= adminCount %></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-user text-success me-2"></i> Users</span>
-          <span class="text-dark"><%= userCount %></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-user-tie text-info me-2"></i> Employees</span>
-          <span class="text-dark"><%= employeeCount %></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-briefcase text-warning me-2"></i> Executives</span>
-          <span class="text-dark"><%= executiveCount %></span>
-        </li>
-      </ul>
-    </div>
-  </div>
+          <!-- User & Restaurant Stats -->
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="card shadow border-left-primary h-100">
+                <div class="card-header text-primary font-weight-bold bg-light">
+                  <i class="fas fa-users-cog"></i> User Statistics
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between"><span>Admins</span><span><%= adminCount %></span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Users</span><span><%= userCount %></span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Employees</span><span><%= employeeCount %></span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Executives</span><span><%= executiveCount %></span></li>
+                </ul>
+              </div>
+            </div>
 
-  <!-- Restaurant & Order Statistics Card -->
-  <div class="col-12 col-md-6 mb-4">
-    <div class="card shadow border-left-info h-100">
-      <div class="card-header bg-light font-weight-bold text-info">
-        <i class="fas fa-store-alt text-info me-2"></i>  Restaurant & Order Statistics
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-store text-dark me-2"></i> Restaurants</span>
-          <span class="text-dark"><%= restaurantCount %></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-leaf text-success me-2"></i> Veg Menu Items</span>
-          <span class="text-dark"><%= vegMenuCount %></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-drumstick-bite text-danger me-2"></i> Non-Veg Menu Items</span>
-          <span class="text-dark"><%= nonVegMenuCount %></span>
-        </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span><i class="fas fa-receipt text-warning me-2"></i> Orders Booked</span>
-            <span class="text-dark"><%= totalOrderCount %></span>
-          </li>
-      </ul>
-    </div>
-  </div>
-</div>
+            <div class="col-md-6 mb-4">
+              <div class="card shadow border-left-info h-100">
+                <div class="card-header text-info font-weight-bold bg-light">
+                  <i class="fas fa-store-alt"></i> Restaurant & Order Statistics
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between"><span>Restaurants</span><span><%= restaurantCount %></span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Veg Menu Items</span><span><%= vegMenuCount %></span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Non-Veg Menu Items</span><span><%= nonVegMenuCount %></span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Orders Booked</span><span><%= totalOrderCount %></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
           <!-- Charts -->
           <div class="row">
-            <!-- Area Chart -->
+            <!-- Line Chart -->
             <div class="col-xl-8 col-lg-7">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold" style="color: rgb(83, 83, 255);">Earnings Overview</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
-                      <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else</a>
-                    </div>
-                  </div>
+              <div class="card shadow mb-4 chart-equal-height">
+                <div class="card-header py-3 d-flex justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Daily Orders & Collection</h6>
                 </div>
                 <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                  </div>
+                  <canvas id="myAreaChart" height="300"></canvas>
                 </div>
               </div>
             </div>
 
             <!-- Pie Chart -->
             <div class="col-xl-4 col-lg-5">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold" style="color: rgb(83, 83, 255);">Revenue Sources</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
-                      <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else</a>
-                    </div>
-                  </div>
+              <div class="card shadow mb-4 chart-equal-height">
+                <div class="card-header py-3 d-flex justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Monthly Revenue</h6>
                 </div>
-                <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                  </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <canvas id="myPieChart" height="250"></canvas>
                 </div>
               </div>
             </div>
           </div>
-        </div> <!-- /.container-fluid -->
-      </div> <!-- End of Main Content -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
 
       <!-- Footer -->
-      <%- include('layout/footer') %>
-    </div> <!-- End of Content Wrapper -->
-  </div> <!-- End of Page Wrapper -->
+      <%- include("layout/footer") %>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="js/sb-admin-2.min.js"></script>
-  <script src="vendor/chart.js/Chart.min.js"></script>
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+  <script>
+    const dailyLabels = <%- dailyLabels %>;
+    const orderCounts = <%- orderCounts %>;
+    const dailyTotals = <%- dailyTotals %>;
+    const monthlyLabels = <%- monthlyLabels %>;
+    const monthlyTotals = <%- monthlyTotals %>;
+
+    // Line Chart
+    new Chart(document.getElementById("myAreaChart"), {
+      type: "line",
+      data: {
+        labels: dailyLabels,
+        datasets: [
+          {
+            label: "Orders",
+            data: orderCounts,
+            borderColor: "#3f51b5",
+            backgroundColor: "rgba(63, 81, 181, 0.2)",
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: "#3f51b5"
+          },
+          {
+            label: "Revenue (₹)",
+            data: dailyTotals,
+            borderColor: "#00bcd4",
+            backgroundColor: "rgba(0, 188, 212, 0.2)",
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: "#00bcd4"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#333',
+              font: { size: 14 }
+            }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: (ctx) => ctx.dataset.label === 'Revenue (₹)' ? `Revenue: ₹${ctx.parsed.y}` : `Orders: ${ctx.parsed.y}`
+            }
+          }
+        },
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#666', font: { size: 13 } }
+          },
+          x: {
+            ticks: { color: '#666', font: { size: 13 } }
+          }
+        }
+      }
+    });
+
+    // Pie Chart
+    new Chart(document.getElementById("myPieChart"), {
+      type: 'pie',
+      data: {
+        labels: monthlyLabels,
+        datasets: [{
+          data: monthlyTotals,
+          backgroundColor: [
+            '#00bcd4', '#3f51b5', '#ff9800', '#e91e63',
+            '#8bc34a', '#f44336', '#9c27b0', '#03a9f4',
+            '#ff5722', '#4caf50', '#2196f3', '#795548'
+          ],
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#333',
+              font: { size: 14, weight: 'bold' },
+              padding: 15
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ₹${ctx.parsed}`
+            }
+          },
+          datalabels: {
+            color: '#fff',
+            font: { weight: 'bold' },
+            formatter: (val) => `₹${val}`
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  </script>
 </body>
 </html>

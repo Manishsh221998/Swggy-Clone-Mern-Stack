@@ -6,7 +6,9 @@ import {
   decreaseCartItem as apiDecreaseCartItem,
   removeFromCart as apiRemoveFromCart,
   clearCart as apiClearCart,
-  placeOrder as apiPlaceOrder, // <-- Import
+  placeOrder as apiPlaceOrder,
+  createOrder as apiCreateOrder,
+  verifyPayment as apiVerifyPayment, 
 } from "../api/apiHandler";
 
 // THUNKS
@@ -36,7 +38,9 @@ export const addToCart = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const res = await apiAddToCart(payload);
+       
       toast.success("Item added to cart!");
+   
       return res.data?.data?.items;
     } catch (error) {
       toast.error("Failed to add item to cart.");
@@ -102,6 +106,35 @@ export const placeOrder = createAsyncThunk(
   }
 );
 
+export const createRazorpayOrder = createAsyncThunk(
+  "cart/createRazorpayOrder",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const res = await apiCreateOrder(payload); // From your apiHandler
+      return res.data;
+    } catch (error) {
+      const message = error?.response?.data?.message || "Failed to create Razorpay order.";
+      toast.error(message);
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const verifyRazorpayPayment = createAsyncThunk(
+  "cart/verifyRazorpayPayment",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const res = await apiVerifyPayment(payload);
+      toast.success(res?.data?.message || "Payment verified and order placed!");
+      return res.data;
+    } catch (error) {
+      const message = error?.response?.data?.message || "Payment verification failed!";
+      toast.error(message);
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 // REDUCER
 const cartSlice = createSlice({
   name: "cart",
@@ -114,6 +147,7 @@ const cartSlice = createSlice({
      status: "idle",
     error: null,
     order: null,
+    razorpayOrder: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -174,7 +208,21 @@ const cartSlice = createSlice({
         state.userId = null;
         state.restaurantData = null;
         state.order = action.payload;
-      });
+        state.razorpayOrder = null
+      })
+
+      .addCase(createRazorpayOrder.fulfilled, (state, action) => {
+  state.razorpayOrder = action.payload;
+})
+  .addCase(verifyRazorpayPayment.fulfilled, (state, action) => {
+      state.items = {};
+      state.fullItems = [];
+      state.cartId = null;
+      state.userId = null;
+      state.restaurantData = null;
+      state.order = action.payload;
+      state.razorpayOrder = null;
+    });
   },
 });
 

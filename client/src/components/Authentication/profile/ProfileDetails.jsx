@@ -17,7 +17,7 @@ import { useUpdatePassword, useUpdateUserProfile } from '../../../hooks/useUser'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
+import CallIcon from '@mui/icons-material/Call';
 // Swiggy color palette
 const swiggyOrange = '#FC8019';
 const swiggyDark = '#282C3F';
@@ -35,6 +35,7 @@ const ProfileDetails = ({ userData, setUserData }) => {
     if (userData) {
       setValue('name', userData.name || '');
       setValue('email', userData.email || '');
+      setValue('mobile', userData.mobile || '');
     }
   }, [userData, setValue]);
 
@@ -178,6 +179,58 @@ const ProfileDetails = ({ userData, setUserData }) => {
                 }
               }}
             />
+            
+        <TextField
+              label=" Mobile number"
+               {...registerProfile('mobile', { 
+                required: 'Mobile number is required',
+                 minLength: {
+    value: 10,
+    message: 'Mobile number must be at least 10 digits',
+  },
+  pattern: {
+    value: /^[0-9]{10,}$/,
+    message: 'Mobile number must be valid and contain only digits',
+  },
+              })}
+              fullWidth
+              variant="outlined"
+              error={!!profileErrors.mobile}
+              helperText={profileErrors.mobile?.message}
+              InputLabelProps={{
+                sx: {
+                  color: swiggyOrange,
+                  '&.Mui-focused': {
+                    color:'black',
+                  }
+                }
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <CallIcon sx={{ color: 'action.active' }} />
+                  </InputAdornment>
+                ),
+                sx: {
+                  borderRadius: '12px',
+                  height: '56px'
+                }
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: theme.palette.divider,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: swiggyOrange,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: swiggyOrange,
+                    borderWidth: '2px'
+                  },
+                }
+              }}
+            />
 
             <Button
               variant="contained"
@@ -214,6 +267,8 @@ const ProfileDetails = ({ userData, setUserData }) => {
         </Box>
       </Paper>
 
+ 
+    
 <Divider sx={{mb:4}}/>
 
       {/* Password Update Section - Simplified with single field */}

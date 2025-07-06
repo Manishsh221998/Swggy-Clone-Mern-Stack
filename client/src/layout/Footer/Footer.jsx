@@ -11,6 +11,7 @@ import {
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
   return (
@@ -33,9 +34,51 @@ const Footer = () => {
       <Container maxWidth="lg">
         <Grid container spacing={6} justifyContent="space-between">
           <Grid item xs={12} md={3}>
-            <Typography variant="h5" fontWeight="bold" sx={{ color: 'orangered' }} gutterBottom>
-              Swiggy
-            </Typography>
+                      {/* LOGO */}
+   <Box 
+      sx={{ 
+        display: 'inline-block',
+        position: 'relative',
+        padding: '0 4px'
+      }}
+      component={motion.div}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+    >
+      <Typography 
+        variant="h6" 
+        sx={{ 
+          fontWeight: 700, 
+          
+          background: 'linear-gradient(45deg, #FF512F 0%, #DD2476 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          letterSpacing: 3,
+          fontFamily: '"Playfair Display", serif',
+          fontSize: 28,
+          position: 'relative',
+          display: 'inline-block',
+          textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            bottom: -4,
+            left: 0,
+            width: '100%',
+            height: 2,
+            background: 'linear-gradient(90deg, #FF512F, #DD2476)',
+            transformOrigin: 'left',
+            transform: 'scaleX(0)',
+            transition: 'transform 0.3s ease'
+          },
+          '&:hover::after': {
+            transform: 'scaleX(1)'
+          }
+        }}
+      >
+        EatZy
+      </Typography>
+    </Box>
           </Grid>
 
           <Grid item xs={6} sm={4} md={2}>
@@ -93,7 +136,20 @@ const Footer = () => {
                 </Link>
               ))}
             </Box>
+ 
+<Typography 
+  component="a" 
+  ariant="subtitle1" fontWeight="bold" gutterBottom
+  href="http://localhost:3001"
+ underline="none"
+                  color="text.secondary"
+                  sx={{ '&:hover': { color: 'orangered' } }}
+>
+  Admin
+</Typography>
+
           </Grid>
+           
 
           <Grid item xs={12} md={2}>
             <Typography variant="subtitle1" fontWeight="bold" gutterBottom>

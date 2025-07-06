@@ -4,232 +4,348 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title %></title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <title>
+    <%= title %>
+  </title>
+
+  <!-- Font Awesome -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- SB Admin Styles -->
+  <link href="stylesheet/css/sb-admin-2.min.css" rel="stylesheet">
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
   <style>
     body {
+      font-family: 'Nunito', sans-serif;
       background: linear-gradient(to right, #fef3e6, #ffffff);
-      font-family: 'Helvetica Neue', sans-serif;
-      height: 100vh;
+      min-height: 100vh;
     }
 
-    .main-container {
-      display: flex;
-      height: 100%;
-      width: 100%;
-    }
-
-    .register-left {
-      width: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
+    .card-form {
       background-color: #fff;
-    }
-
-    .register-form-card {
-      width: 100%;
-      max-width: 520px;
-      background-color: #fff;
-      padding: 35px 30px;
+      padding: 30px;
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .brand {
-      color: #fc8019;
-      font-weight: bold;
-      font-size: 32px;
-      margin-bottom: 16px;
-      text-align: center;
+      margin: 40px auto;
+      max-width: 100%;
     }
 
     .form-label {
-      font-weight: 500;
+      font-weight: 600;
       color: #2f1601;
-      margin-bottom: 6px;
     }
 
-    .form-control {
-      border-radius: 12px;
-      padding: 12px;
+    .form-control,
+    .form-select {
+      border-radius: 10px;
+      padding: 10px;
       font-size: 15px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #000;
+      box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.08);
     }
 
     .btn-orange {
       background-color: #fc8019;
+      color: #fff;
       border: none;
-      color: white;
-      padding: 12px;
       font-weight: 600;
-      border-radius: 12px;
-      width: 100%;
+      padding: 10px 30px;
+      border-radius: 10px;
     }
 
     .btn-orange:hover {
       background-color: #e56d00;
     }
 
-    .auth-links {
-      font-size: 14px;
-      text-align: center;
-      margin-top: 20px;
+    .alert {
+      border-radius: 10px;
+      font-size: 0.95rem;
     }
 
-    .auth-links a {
-      color: #666;
-      text-decoration: none;
+    .employee-avatar {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
     }
 
-    .auth-links a:hover {
-      text-decoration: underline;
-    }
-
-    .register-right {
-      width: 50%;
-      background-color: #fef3e6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-    }
-
-    .register-right img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    @media (max-width: 768px) {
-      .main-container {
-        flex-direction: column;
+    @media (max-width: 991px) {
+      .form-row-scroll {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 1rem;
       }
 
-      .register-left{
-display: none;
-      }
-      .register-right {
-        width: 100%;
+      .form-row-scroll>.col {
+        display: inline-block;
+        min-width: 220px;
+        margin-right: 1rem;
+        vertical-align: top;
       }
 
-      .register-right {
-        display:block;
-      }
+    }
+
+    /* Ensure consistent input height and style */
+    .form-control,
+    .form-select {
+      height: 50px;
+      border-radius: 10px;
+      font-size: 15px;
+      padding: 10px;
+    }
+
+    /* Professional file input styling */
+    input[type="file"]::file-selector-button {
+      background-color: #ebe5e5;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 8px;
+      color: rgb(10, 9, 9);
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 15px;
     }
   </style>
 </head>
 
-<body>
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("layout/sidebar.ejs") %>
 
-  
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <%- include("layout/topbar.ejs") %>
 
-  <div class="main-container">
-    <!-- Left: Form -->
-    <div class="register-right">
-      <div class="register-form-card">
-        <div class="brand">Swiggy</div>
-        <h5 class="text-center mb-4">Create your account</h5>
+            <div class="container">
 
- <!-- Flash messages -->
-        <% if (success_msg && success_msg.length > 0) { %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= success_msg %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% } %>
 
-        <% if (error_msg && error_msg.length > 0) { %>
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <%= error_msg %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% } %>
-        <!-- ---------- -->
+              <div class="card-form">
 
-        <hr>
 
-        <form method="POST" action="/register" enctype="multipart/form-data">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="name">Username</label>
-              <input type="text" class="form-control" id="name" name="name" placeholder="Enter your username" />
-            </div>
+                <h4 class="mb-4 text-dark fw-bold">Register New Admin</h4>
+                <hr />
 
-            <div class="col-md-6">
-              <label class="form-label" for="roleDropdown">Select Role</label>
-              <div class="dropdown">
-                <button class="btn btn-light dropdown-toggle form-control text-start" type="button" id="roleDropdown"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  Select a role
-                </button>
-                <ul class="dropdown-menu w-100" aria-labelledby="roleDropdown">
-                  <% roles.slice(1).forEach(role => { %>
-                    <li><a class="dropdown-item role-option" href="#" data-value="<%= role._id %>">
-                      <%= role.name %>
-                    </a></li>
-                  <% }) %>
-                </ul>
-                <input type="hidden" name="roleId" id="selectedRoleId" />
+                <!-- flash message -->
+                <% if (success_msg && success_msg.length) { %>
+                  <div class="alert alert-success" id="flash-success">
+                    <%= success_msg %>
+                  </div>
+                  <% } %>
+                    <% if (error && error.length) { %>
+                      <div class="alert alert-danger" id="flash-error">
+                        <%= error %>
+                      </div>
+                      <% } %>
+
+
+                        <form method="POST" action="/register" enctype="multipart/form-data">
+                          <div class="row form-row-scroll g-3 align-items-end">
+                            <div class="col">
+                              <label for="name" class="form-label">Username</label>
+                              <input type="text" name="name" id="name" class="form-control" placeholder="Enter username"
+                                required />
+                            </div>
+
+                            <div class="col">
+                              <label for="email" class="form-label">Email Address</label>
+                              <input type="email" name="email" id="email" class="form-control" placeholder="Enter email"
+                                required />
+                            </div>
+
+                            <div class="col">
+                              <label for="password" class="form-label">Password</label>
+                              <input type="password" name="password" id="password" class="form-control"
+                                placeholder="Enter password" required />
+                            </div>
+
+                            <div class="col">
+                              <label for="roleId" class="form-label">Select Role</label>
+                              <select class="form-select" id="roleId" name="roleId" required>
+                                <option value="">-- Select Role --</option>
+                                <% if (roles && roles.length> 0) { %>
+                                  <% roles.forEach(role=> { %>
+                                    <option value="<%= role._id %>">
+                                      <%= role.name %>
+                                    </option>
+                                    <% }) %>
+                                      <% } else { %>
+                                        <option disabled>No roles found</option>
+                                        <% } %>
+                              </select>
+                            </div>
+
+                            <div class="col">
+                              <label for="image" class="form-label">Profile Image</label>
+                              <div class="border rounded d-flex align-items-center p-2" style="height: 50px">
+                                <input type="file" class="form-control border-0 p-0" id="image" name="image"
+                                  accept="image/*" style="height: 100%; line-height: 1.5;" />
+                              </div>
+                            </div>
+
+
+                            <div class="col d-flex justify-content-end">
+                              <button id="registerBtn" type="submit"
+                                class="btn btn-orange d-inline-flex align-items-center justify-content-center mt-3">
+                                <span class="spinner-border spinner-border-sm me-2 d-none" role="status"
+                                  aria-hidden="true"></span>
+                                <span class="btn-text">Register</span>
+                              </button>
+                            </div>
+                          </div>
+                        </form>
               </div>
-            </div>
 
-            <div class="col-md-6">
-              <label class="form-label" for="email">Email Address</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" />
-            </div>
+              <!-- Admin List -->
+              <div class="card-custom bg-white p-4 mb-5" style="border-radius: 16px;">
+                <div class="section-heading"><i class="fas fa-user-shield"></i> Admin List</div>
+                <hr />
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="adminTable">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Created Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if (adminData.length===0) { %>
+                        <tr>
+                          <td colspan="6" class="text-center text-muted py-4">No admin data found</td>
+                        </tr>
+                        <% } else { %>
+                          <% adminData.forEach((admin, index)=> { %>
+                            <tr>
+                              <td>
+                                <%= index + 1 %>
+                              </td>
+                              <td>
+                                <img src="<%= admin.image || '/images/default-avatar.png' %>" alt="Profile"
+                                  class="employee-avatar">
+                              </td>
+                              <td>
+                                <div>
+                                  <%= admin.name %>
+                                </div>
+                                <small class="text-muted">(Admin)</small>
+                              </td>
+                              <td>
+                                <%= admin.email %>
+                              </td>
+                              <td>
+                                <%= new Date(admin.createdAt).toLocaleDateString() %>
+                              </td>
+                              <td>
+                                <a href="/delete/<%= admin._id %>" class="delete-btn" title="Delete Admin"
+                                  data-name="<%= admin.name %>">
+                                  <i class="fas fa-trash-alt" style="color: red;"></i>
+                                </a>
+                              </td>
+                            </tr>
+                            <% }) %>
+                              <% } %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-            <div class="col-md-6">
-              <label class="form-label" for="password">Password</label>
-              <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" />
-            </div>
 
-            <div class="col-md-12">
-              <label class="form-label" for="image">Profile Image</label>
-              <input type="file" class="form-control" id="image" name="image" accept="image/*" />
             </div>
-
-            <div class="col-12 mt-3">
-              <button type="submit" class="btn btn-orange">Register</button>
-            </div>
-          </div>
-        </form>
-
-        <div class="auth-links mt-4">
-          <p><a href="/forgotPassword">Forgot Password?</a></p>
-          <p><a href="/login-view">Already have an account? Login!</a></p>
         </div>
+        <%- include("layout/footer.ejs") %>
       </div>
-    </div>
-
-    <!-- Right: Illustration -->
-    <div class="register-left">
-      <img src="" alt="Register illustration" />
-    </div>
   </div>
 
+  <!-- Scripts -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+
   <script>
-    document.querySelectorAll('.role-option').forEach(item => {
-      item.addEventListener('click', function (e) {
-        e.preventDefault();
-        const selectedText = this.textContent;
-        const selectedValue = this.getAttribute('data-value');
-
-        document.getElementById('roleDropdown').textContent = selectedText;
-        document.getElementById('selectedRoleId').value = selectedValue;
-      });
-    });
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    // Auto dismiss alerts after 3 seconds
+    // Auto-dismiss alerts
     setTimeout(() => {
-      const alerts = document.querySelectorAll('.alert');
-      alerts.forEach(alert => {
+      document.querySelectorAll('.alert').forEach(alert => {
         const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
         bsAlert.close();
       });
-    }, 500);
+    }, 3000);
+
+    // Confirm delete
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        const name = this.getAttribute('data-name');
+        if (!confirm(`Are you sure you want to delete ${name}? This action cannot be undone.`)) {
+          e.preventDefault();
+        }
+      });
+    });
+
+    // Spinner on submit
+    document.querySelector('form').addEventListener('submit', function () {
+      const btn = document.getElementById('registerBtn');
+      btn.disabled = true;
+      btn.querySelector('.spinner-border').classList.remove('d-none');
+      btn.querySelector('.btn-text').textContent = 'Please wait...';
+    });
+
+    // Fade flash messages
+    setTimeout(() => {
+      $('#flash-success, #flash-error').fadeTo(500, 0).slideUp(500, function () {
+        $(this).remove();
+      });
+    }, 3000);
+
+  </script>
+  <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    // Initialize DataTables
+    $(document).ready(function () {
+      $('#adminTable').DataTable();
+    });
+
+    // Flash message fade out
+    setTimeout(() => {
+      $('#flash-success, #flash-error').fadeTo(500, 0).slideUp(500, function () {
+        $(this).remove();
+      });
+    }, 3000);
+
+    // Delete confirmation
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        const name = this.getAttribute('data-name');
+        if (!confirm(`Are you sure you want to delete ${name}?`)) {
+          e.preventDefault();
+        }
+      });
+    });
+
+    // Show spinner on submit
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function () {
+        const btn = document.getElementById('registerBtn');
+        btn.disabled = true;
+        btn.querySelector('.spinner-border').classList.remove('d-none');
+        btn.querySelector('.btn-text').textContent = 'Please wait...';
+      });
+    }
   </script>
 </body>
 

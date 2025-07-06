@@ -68,6 +68,11 @@ export const getMenuCategory = async () => {
   return await axiosInstance.get(ENDPOINTS.MENU_CATEGORY);
 };
 
+// Get all menu items
+export const getMenuItems = async () => {
+  return await axiosInstance.get(ENDPOINTS.MENUITEMS_LIST);
+};
+
 // Get all restaurants
 export const getAllRestaurants = async () => {
   return await axiosInstance.get(ENDPOINTS.RESTAURANTS_LIST);
@@ -127,4 +132,16 @@ export const placeOrder = async () => {
 export const getUserOrders = async () => {
   return await axiosInstance.get(ENDPOINTS.MY_ORDERS);
 };
+
+// Create Order (Requires Auth)
+export const createOrder = async (data) => {
+  return await axiosInstance.post(ENDPOINTS.RAZORPAY_CREATE_ORDER,data);
+};
+
+// Verify and place Order (Requires Auth)
+export const verifyPayment  = async (data) => {
+  return await axiosInstance.post(ENDPOINTS.RAZORPAY_VERIFY_AND_PLACE_ORDER,data);
+};
+
+
 //--------------------------------------------------------------------------------

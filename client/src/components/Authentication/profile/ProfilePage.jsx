@@ -37,6 +37,7 @@ const ProfilePage = () => {
       setUserData({
         name: user.name,
         email: user.email,
+        mobile: user.mobile,
         image: user.image || '',
       });
     }

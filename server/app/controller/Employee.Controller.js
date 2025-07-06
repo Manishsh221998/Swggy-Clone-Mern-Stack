@@ -102,7 +102,7 @@ class EmployeeController {
     }
   }
 
-  // Delete Employee
+ 
  // Delete Employee
 async delete(req, res) {
   try {

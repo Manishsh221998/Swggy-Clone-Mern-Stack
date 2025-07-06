@@ -1,11 +1,9 @@
-// Updated Header component with Cart Badge Integration
 import React, { useEffect, useState, useRef } from "react";
 import {
   AppBar,
   Toolbar,
   Typography,
   IconButton,
-  InputBase,
   Box,
   Drawer,
   List,
@@ -20,18 +18,18 @@ import {
 } from "@mui/material";
 import {
   Menu as MenuIcon,
-  Search as SearchIcon,
-  HelpOutline,
   ShoppingCart,
   AccountCircle,
   Home as HomeIcon,
 } from "@mui/icons-material";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { AiOutlineLogout } from "react-icons/ai";
 import AuthDrawerController from "../../components/Drawer/AuthDrawerController";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserProfile } from "../../hooks/useUser";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCart } from "../../redux/cartSlice";
+import { motion } from "framer-motion";
 
 const Header = () => {
   const theme = useTheme();
@@ -50,7 +48,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const fullItems = useSelector((state) => state.cart.fullItems);
   const totalCount = fullItems.reduce((acc, item) => acc + item.quantity, 0);
-  
+
+  const [scrolled, setScrolled] = useState(false);
+
   const toggleDrawer = (open) => () => setDrawerOpen(open);
   const toggleLoginDrawer = (open, type = "login") => () => {
     setFormType(type);
@@ -77,82 +77,286 @@ const Header = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#fff", color: "#000", py: 1, boxShadow: "0 8px 24px rgba(0, 0, 0, 0.06)", zIndex: theme.zIndex.drawer + 1 }}>
-      <Box sx={{ width: "100%", maxWidth: "1320px", px: { xs: 2, sm: 3, md: 4 }, mx: "auto" }}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: "orangered" }}>Swiggy</Typography>
-            </Link>
-          </Box>
-
-          {!isMobile && (
-            <Box sx={{ display: "flex", alignItems: "center", backgroundColor: "#f1f1f1", px: 2, borderRadius: 2, width: "35%" }}>
-              <SearchIcon color="action" />
-              <InputBase placeholder="Search for restaurants or dishes" sx={{ ml: 1, flex: 1 }} />
+    <>
+      <AppBar
+        position={isMobile?"static":"static"}
+        elevation={0}
+        sx={{
+          // backgroundColor: scrolled ? "rgba(255, 255, 255, 0.85)" : "transparent",
+          background: scrolled
+    ? "linear-gradient(90deg, rgba(255,255,255,0.85) 0%, rgba(255,243,213,0.85) 100%)"
+    : "transparent",
+          color: "#000",
+          backdropFilter: scrolled ? "blur(9px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(9px)" : "none",
+          transition: "all 0.3s ease-in-out",
+          // boxShadow: scrolled ? "0 4px 12px rgba(0, 0, 0, 0.06)" : "none",
+          // borderBottom: scrolled ? "1px solid rgba(0, 0, 0, 0.05)" : "none",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.06)" ,
+          borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
+          zIndex: theme.zIndex.drawer + 1,
+          py: 0.5,
+           
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "1320px",
+            px: { xs: 2, sm: 3, md: 4 },
+            mx: "auto",
+          }}
+        >
+          <Toolbar sx={{ px: 0 }}>
+            {/* Left: Logo */}
+            <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+              <Box
+                component={motion.div}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                sx={{ padding: "0 4px" }}
+              >
+                <Typography
+                  variant="h6"
+                  component={Link}
+                  to="/"
+                  sx={{
+                    fontWeight: 700,
+                    background: "linear-gradient(45deg, #FF512F 0%, #DD2476 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    letterSpacing: 3,
+                    fontFamily: '"Playfair Display", serif',
+                    fontSize: 28,
+                    textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    textDecoration: "none",
+                    position: "relative",
+                    "&::after": {
+                      content: '""',
+                      position: "absolute",
+                      bottom: -6,
+                      left: 0,
+                      width: "100%",
+                      height: 2,
+                      background: "linear-gradient(90deg, #FF512F, #DD2476)",
+                      transformOrigin: "left",
+                      transform: "scaleX(0)",
+                      transition: "transform 0.3s ease",
+                    },
+                    "&:hover::after": {
+                      transform: "scaleX(1)",
+                    },
+                  }}
+                >
+                  EatZy
+                </Typography>
+              </Box>
             </Box>
-          )}
 
-          {!isMobile ? (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
-              {[{ icon: <HomeIcon />, path: '/', label: "Home" }, { icon: <HelpOutline />, label: "About" }, {
-                icon: <Badge badgeContent={totalCount} color="error"><ShoppingCart /></Badge>,
-                path: '/cart',
-                label: "Cart"
-              }].map((item, idx) => (
-                <Link to={item.path} key={idx} style={{ textDecoration: "none" }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, cursor: "pointer", '&:hover': { color: "orangered" } }}>
-                    {item.icon}
-                    <Typography variant="body2">{item.label}</Typography>
-                  </Box>
-                </Link>
-              ))}
-
-              {/* Authenticated Dropdown */}
-              {token && user ? (
-                <Box onMouseEnter={() => { clearTimeout(hideDropdownTimeout.current); setDropdownVisible(true); }} onMouseLeave={() => { hideDropdownTimeout.current = setTimeout(() => setDropdownVisible(false), 300); }}>
-                  <Link to="/profile">
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, px: 1, py: 0.5, borderRadius: 2, '&:hover': { backgroundColor: "#f9f9f9" } }}>
-                      <Avatar alt={user.name} src={`http://localhost:3001/${user.image}`} sx={{ width: 36, height: 36 }} />
-                      <Typography variant="body2" sx={{ fontWeight: 500 }}>{user.name.length > 14 ? `${user.name.slice(0, 8)}` : user.name}</Typography>
+            {/* Center: Menu Items */}
+            {!isMobile && (
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 4,
+                }}
+              >
+                {[
+                  { icon: <HomeIcon />, path: "/", label: "Home" },
+                  { icon: <FastfoodIcon />, path: "/menu", label: "Menu" },
+                  {
+                    icon: (
+                      <Badge badgeContent={totalCount} color="success"  >
+                        <ShoppingCart />
+                      </Badge>
+                    ),
+                    path: "/cart",
+                    label: "Cart",
+                  },
+                ].map((item, idx) => (
+                  <Link to={item.path} key={idx} style={{ textDecoration: "none" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 0.5,
+                        cursor: "pointer",
+                        "&:hover": { color: "orangered" },
+                      }}
+                    >
+                      {item.icon}
+                      <Typography variant="body2">{item.label}</Typography>
                     </Box>
                   </Link>
-                  {dropdownVisible && (
-                    <Box onMouseEnter={() => clearTimeout(hideDropdownTimeout.current)} onMouseLeave={() => { hideDropdownTimeout.current = setTimeout(() => setDropdownVisible(false), 300); }} sx={{ position: "absolute", top: "100%", right: 0, mt: 2.5, width: 200, backgroundColor: "#fff", boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", borderRadius: 1, zIndex: 1000 }}>
-                      {[{ label: "Profile", path: "/profile" }, { label: "My Orders", path: "/orders" }].map((item, idx) => (
-                        <MenuItem key={idx} onClick={() => { navigate(item.path); setDropdownVisible(false); }} sx={{ px: 2, py: 1.1 }}>{item.label}</MenuItem>
-                      ))}
-                      <Divider />
-                      <MenuItem onClick={() => { handleLogout(); setDropdownVisible(false); }} sx={{ px: 2, py: 1.5, color: "red", fontWeight: 500 }}>Logout</MenuItem>
-                    </Box>
-                  )}
-                </Box>
+                ))}
+              </Box>
+            )}
+
+            {/* Right: Avatar/Login */}
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              {!isMobile ? (
+                token && user ? (
+                  <Box
+                    onMouseEnter={() => {
+                      clearTimeout(hideDropdownTimeout.current);
+                      setDropdownVisible(true);
+                    }}
+                    onMouseLeave={() => {
+                      hideDropdownTimeout.current = setTimeout(
+                        () => setDropdownVisible(false),
+                        300
+                      );
+                    }}
+                    sx={{ position: "relative" }}
+                  >
+                    <Link to="/profile">
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          px: 1,
+                          py: 0.5,
+                          borderRadius: 2,
+                          "&:hover": { backgroundColor: "#f9f9f9" },
+                        }}
+                      >
+                        <Avatar
+                          alt={user.name}
+                          src={`http://localhost:3001/${user.image}`}
+                          sx={{ width: 36, height: 36 }}
+                        />
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                          {user.name.length > 16
+                            ? `${user.name.slice(0, 14)}...`
+                            : user.name}
+                        </Typography>
+                      </Box>
+                    </Link>
+                    {dropdownVisible && (
+                      <Box
+                        onMouseEnter={() => clearTimeout(hideDropdownTimeout.current)}
+                        onMouseLeave={() => {
+                          hideDropdownTimeout.current = setTimeout(
+                            () => setDropdownVisible(false),
+                            300
+                          );
+                        }}
+                        sx={{
+                          position: "absolute",
+                          top: "100%",
+                          right: 0,
+                          mt: 2.5,
+                          width: 200,
+                          backgroundColor: "#fff",
+                          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                          borderRadius: 1,
+                          zIndex: 1000,
+                        }}
+                      >
+                        {[{ label: "Profile", path: "/profile" }, { label: "My Orders", path: "/orders" }].map(
+                          (item, idx) => (
+                            <MenuItem
+                              key={idx}
+                              onClick={() => {
+                                navigate(item.path);
+                                setDropdownVisible(false);
+                              }}
+                              sx={{ px: 2, py: 1.1 }}
+                            >
+                              {item.label}
+                            </MenuItem>
+                          )
+                        )}
+                        <Divider />
+                        <MenuItem
+                          onClick={() => {
+                            handleLogout();
+                            setDropdownVisible(false);
+                          }}
+                          sx={{ px: 2, py: 1.5, color: "red", fontWeight: 500 }}
+                        >
+                          Logout
+                        </MenuItem>
+                      </Box>
+                    )}
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 0.5,
+                      cursor: "pointer",
+                      "&:hover": { color: "orangered" },
+                    }}
+                    onClick={toggleLoginDrawer(true, "login")}
+                  >
+                    <AccountCircle fontSize="small" />
+                    <Typography variant="body2">Login</Typography>
+                  </Box>
+                )
               ) : (
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, cursor: "pointer", '&:hover': { color: "orangered" } }} onClick={toggleLoginDrawer(true, "login")}>
-                  <AccountCircle fontSize="small" />
-                  <Typography variant="body2">Login</Typography>
-                </Box>
+                <IconButton onClick={toggleDrawer(true)}>
+                  <MenuIcon />
+                </IconButton>
               )}
             </Box>
-          ) : (
-            <IconButton onClick={toggleDrawer(true)}>
-              <MenuIcon />
-            </IconButton>
-          )}
-        </Toolbar>
-      </Box>
+          </Toolbar>
+        </Box>
+      </AppBar>
 
+      {/* Spacer for fixed AppBar */}
+   {!isMobile && <Box sx={{ height: "72px" }} />}
+
+
+      {/* Mobile Drawer */}
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box sx={{ width: 250 }} onClick={toggleDrawer(false)}>
           <List>
             {token && user && (
               <>
-                <ListItem sx={{gap:1}}>
-                  <Avatar alt={user.name} src={`http://localhost:3001/${user.image}`} sx={{ width: 40, height: 40, border: '1px solid', borderColor: 'divider' }} />
+                <ListItem sx={{ gap: 1 }}>
+                  <Avatar
+                    alt={user.name}
+                    src={`http://localhost:3001/${user.image}`}
+                    sx={{ width: 40, height: 40, border: "1px solid", borderColor: "divider" }}
+                  />
                   <Box sx={{ mt: 0.4 }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 'medium', lineHeight: 1 }}>{user.name}</Typography>
-                    <Typography component={Link} to="/profile" sx={{ fontSize: '11.5px', fontWeight: 500, color: 'text.secondary', '&:hover': { color: 'green', textDecoration: 'none' } }}>View Profile</Typography>
+                    <Typography variant="subtitle2" sx={{ fontWeight: "medium", lineHeight: 1 }}>
+                      {user.name}
+                    </Typography>
+                    <Typography
+                      component={Link}
+                      to="/profile"
+                      sx={{
+                        fontSize: "11.5px",
+                        fontWeight: 500,
+                        color: "text.secondary",
+                        "&:hover": {
+                          color: "green",
+                          textDecoration: "none",
+                        },
+                      }}
+                    >
+                      View Profile
+                    </Typography>
                   </Box>
                 </ListItem>
                 <Divider sx={{ my: 0 }} />
@@ -162,9 +366,9 @@ const Header = () => {
               <HomeIcon fontSize="small" />
               <ListItemText primary="Home" sx={{ ml: 1 }} />
             </ListItem>
-            <ListItem>
-              <HelpOutline fontSize="small" />
-              <ListItemText primary="About" sx={{ ml: 1 }} />
+            <ListItem button component={Link} to="/menu">
+              <FastfoodIcon fontSize="small" />
+              <ListItemText primary="Menu" sx={{ ml: 1 }} />
             </ListItem>
             <ListItem button component={Link} to="/cart">
               <Badge badgeContent={totalCount} color="success">
@@ -190,8 +394,14 @@ const Header = () => {
         </Box>
       </Drawer>
 
-      <AuthDrawerController open={loginDrawerOpen} onClose={toggleLoginDrawer(false)} formType={formType} setFormType={setFormType} />
-    </AppBar>
+      {/* Auth Drawer */}
+      <AuthDrawerController
+        open={loginDrawerOpen}
+        onClose={toggleLoginDrawer(false)}
+        formType={formType}
+        setFormType={setFormType}
+      />
+    </>
   );
 };
 
