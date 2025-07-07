@@ -4,7 +4,6 @@ import {
   Typography,
   Grid,
   Card,
-  CardMedia,
   CardContent,
   Container,
   useTheme,
@@ -12,7 +11,7 @@ import {
   IconButton,
   Button,
   Stack,
-  Divider
+  Divider,
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -70,21 +69,21 @@ const TopMenuItemsList = () => {
 
   return (
     <>
-      <Divider sx={{ my:1.5, mx:3 }} />
+      <Divider sx={{ my: 1.5, mx: 3 }} />
 
-      <Container sx={{ py: 2 }} id='#bestSeller' >
+      <Container sx={{ py: 2 }} id="#bestSeller">
         <Typography
           sx={{
             mb: 2.5,
             fontWeight: 600,
             fontSize: '26px',
-    fontFamily: '"Poppins", sans-serif',
-     background: "linear-gradient(to right, green,black)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
+            fontFamily: '"Poppins", sans-serif',
+            background: "linear-gradient(to right, green, black)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
-    Bestseller Menu Items 
+          Bestseller Menu Items
         </Typography>
 
         <motion.div
@@ -111,25 +110,24 @@ const TopMenuItemsList = () => {
                     },
                   }}
                 >
-                <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
-  <Box
-    sx={{
-      width: "100%",
-      height: "100%",
-    }}
-  >
-    <img
-      src={item?.image ? `${BaseUrlImage}/${item.image}` : "/placeholder.jpg"}
-      alt={item.name}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-      }}
-    />
-  </Box>
-</Box>
-
+                  <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
+                    <Box sx={{ width: "100%", height: "100%" }}>
+                      <img
+                        src={
+                          item?.image
+                            ? `${BaseUrlImage}/${item.image.replace(/\\/g, "/")}`
+                            : "/placeholder.jpg"
+                        }
+                        alt={item.name}
+                        onError={(e) => (e.target.src = "/placeholder.jpg")}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
+                  </Box>
 
                   <CardContent sx={{ p: 2, display: "flex", flexDirection: "column", flexGrow: 1 }}>
                     <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
