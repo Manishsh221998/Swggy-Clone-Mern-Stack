@@ -51,7 +51,7 @@ const TopMenuItemsList = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
   const menuItems = data?.data?.data || [];
-
+console.log(menuItems)
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
@@ -66,6 +66,8 @@ const TopMenuItemsList = () => {
   const handleRemove = (id) => {
     dispatch(decreaseCartItem({ menuItemId: id }));
   };
+  
+console.log(`${BaseUrlImage}/${item?.image?.replace(/\\/g, "/")}`);
 
   return (
     <>
@@ -92,7 +94,7 @@ const TopMenuItemsList = () => {
           transition={{ duration: 0.6 }}
         >
           <Grid container spacing={3} sx={{ justifyContent: { xs: "center", md: "start" } }}>
-            {menuItems.slice(0, 8).map((item) => (
+            {menuItems?.slice(0, 8).map((item) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
                 <Card
                   sx={{
@@ -113,14 +115,15 @@ const TopMenuItemsList = () => {
                   <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
                     <Box sx={{ width: "100%", height: "100%" }}>
                       <img
-                        src={`${BaseUrlImage}/${item.image}`}
-                        alt={item.name}
-                         style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
+  src={`${BaseUrlImage}/${item?.image?.replace(/\\/g, "/")}`}
+  alt={item.name}
+  style={{
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  }}
+/>
+
                     </Box>
                   </Box>
 
