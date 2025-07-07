@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const menuController = require('../controller/Menu.Controller'); // renamed to follow lowercase dot notation
-const menuImageUpload = require('../helper/menuImageUpload'); // renamed for consistency
+const menuController = require('../controller/Menu.Controller'); 
+const menuImageUpload = require('../helper/menuImageUpload'); 
 const AuthCheck = require('../middleware/AuthCheck');
 const AuthorizeRole = require('../middleware/AuthorizeRole');
 

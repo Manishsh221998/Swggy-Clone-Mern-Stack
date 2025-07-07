@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const restaurantController = require('../controller/restaurant.controller');
+const restaurantController = require('../controller/Restaurant.controller');
 const restaurantImageUpload=require('../helper/restaurantImageUpload');
 const AuthCheck = require('../middleware/AuthCheck');
 const AuthorizeRole = require('../middleware/AuthorizeRole');

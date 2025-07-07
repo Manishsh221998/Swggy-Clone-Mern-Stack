@@ -161,22 +161,27 @@ cd server
 cd client
 ```
 
-### 2️⃣ Setup Server
+Swagger URL: [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
 
-```bash
+---
+
+## 🛠 Installation & Setup
+
+# Install and run the backend
+
 cd server
 npm install
-cp .env.example .env  # then add environment variables
-npm run start
-```
+npm run 
 
-### 3️⃣ Setup Client
+# Server runs on: http://localhost:3001
 
-```bash
+# Install and run the frontend
+
 cd client
 npm install
 npm run dev
-```
+
+# Frontend runs on: http://localhost:5173 (default Vite port)
 
 ## 🛡️ Authorizations
 

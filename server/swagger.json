@@ -23,6 +23,7 @@
     },
     "apis": [
       "app.js",
-      "./app/router/apiRutes/*.js"
-    ]
+       "./app/router/apiRutes/*.js",
+       "./app/swagger/admin-auth.swagger.js"
+ ]
   }
