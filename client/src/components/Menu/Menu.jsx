@@ -22,8 +22,7 @@ import { fetchCart, addToCart, decreaseCartItem } from "../../redux/cartSlice";
 import { useAllRestaurants, useMenuCategories, useMenuItems } from "../../hooks/useRestaurants";
 import Select from "react-select";
 import { motion } from "framer-motion";
-import ContactPage from "../Contact/Contact";
-import AboutPage from "../About/About";
+ 
 import { BaseUrlImage } from "../../api/endpoints";
 
 // Veg/Non-Veg Icons
@@ -241,7 +240,7 @@ const MenuItems = () => {
         </Stack>
 
         <Grid container spacing={3} justifyContent={{ xs: "center", lg: "flex-start" }}>
-          {itemsToShow.map((item) => (
+          {itemsToShow?.map((item) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}>
                 <Card
@@ -266,7 +265,8 @@ const MenuItems = () => {
                 >
                   <CardMedia
                     component="img"
-                    image={`${BaseUrlImage}/${item?.image}`}
+                      image={`${BaseUrlImage}/${item.image}`}
+                    
                     alt={item.name}
                     sx={{ height: 165 }}
                   />
