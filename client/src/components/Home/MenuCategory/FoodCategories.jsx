@@ -12,6 +12,7 @@ import EastIcon from "@mui/icons-material/East";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useMenuCategories } from "../../../hooks/useRestaurants";
 import { Link } from "react-router-dom";
+import { BaseUrlImage } from "../../../api/endpoints";
 
 const FoodCategories = () => {
   const scrollRef = useRef(null);
@@ -117,7 +118,7 @@ const FoodCategories = () => {
                 <img
                   src={
                     category?.image
-                      ? `https://swggy-clone-mern-stack.onrender.com/${category.image}`
+                      ? `${BaseUrlImage}/${category?.image}`
                       : "/placeholder.svg"
                   }
                   alt={category.name}

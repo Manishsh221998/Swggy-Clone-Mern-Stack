@@ -36,6 +36,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserProfile } from "../../hooks/useUser";
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
+import { BaseUrlImage } from "../../api/endpoints";
 
 const GST_PERCENTAGE = 5;
 
@@ -170,20 +171,19 @@ const CartPage = () => {
       >
         <CardContent sx={{ p: isMobile ? 2 : 3 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: isMobile ? 1.5 : 3 }}>
-        {restaurantData?<CardMedia
-              component="img"
-  image={
-    restaurantData?.image
-      ? `https://swggy-clone-mern-stack.onrender.com/${restaurantData.image.replace(/\\/g, "/")}`
-      : "/placeholder.jpg"
-  }              alt={restaurantData?.name}
-              sx={{
-                width: isMobile ? 60 : 120,
-                height: isMobile ? 60 : 120,
-                borderRadius: 2,
-                objectFit: "cover",
-              }}
-            />:null} 
+        {restaurantData?.image && (
+    <CardMedia
+      component="img"
+      image={`${BaseUrlImage}/${restaurantData.image.replace(/\\/g, "/")}`}
+      alt={restaurantData?.name || "Restaurant"}
+      sx={{
+        width: isMobile ? 60 : 120,
+        height: isMobile ? 60 : 120,
+        borderRadius: 2,
+        objectFit: "cover",
+      }}
+    />
+  )}
             <Box>
               <Typography variant={isMobile ? "subtitle1" : "h6"} fontWeight={600}>
                 {restaurantData?.name}
@@ -241,7 +241,7 @@ const CartPage = () => {
                     <Box sx={{ display: "flex", gap: 2 }}>
                       <Avatar
                         variant="rounded"
-                        src={`https://swggy-clone-mern-stack.onrender.com/${item.image.replace(/\\/g, "/")}`}
+                        src={`${BaseUrlImage}/${item?.image.replace(/\\/g, "/")}`}
                         alt={item.name}
                         sx={{
                           width: isMobile ? 48 : 56,

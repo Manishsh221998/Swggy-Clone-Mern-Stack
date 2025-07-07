@@ -16,6 +16,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { motion } from 'framer-motion';
 import AuthDrawerController from '../../components/Drawer/AuthDrawerController'; // Adjust path if needed
 import { Link } from 'react-router-dom';
+import { BaseUrlImage } from '../../api/endpoints';
 
 const Footer = () => {
   const theme = useTheme();
@@ -148,7 +149,7 @@ const Footer = () => {
               Resources
             </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {[{name:'Help Center',path:'/contact'}, {name:'Blog',path:'/'}, {name:'Admin',path:'https://swggy-clone-mern-stack.onrender.com/'},].map((v) => (
+              {[{name:'Help Center',path:'/contact'}, {name:'Blog',path:'/'}, {name:'Admin',path:`${BaseUrlImage}`},].map((v) => (
                 <Box
                   component={Link}
                   to={v.path}

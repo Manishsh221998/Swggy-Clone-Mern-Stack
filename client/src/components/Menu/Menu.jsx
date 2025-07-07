@@ -24,6 +24,7 @@ import Select from "react-select";
 import { motion } from "framer-motion";
 import ContactPage from "../Contact/Contact";
 import AboutPage from "../About/About";
+import { BaseUrlImage } from "../../api/endpoints";
 
 // Veg/Non-Veg Icons
 const VegIcon = () => (
@@ -265,7 +266,7 @@ const MenuItems = () => {
                 >
                   <CardMedia
                     component="img"
-                    image={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
+                    image={`${BaseUrlImage}/${item?.image}`}
                     alt={item.name}
                     sx={{ height: 165 }}
                   />

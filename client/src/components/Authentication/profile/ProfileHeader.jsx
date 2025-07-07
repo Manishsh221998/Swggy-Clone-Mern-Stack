@@ -11,6 +11,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import { useUpdateUserProfile } from '../../../hooks/useUser';
 import { useForm } from 'react-hook-form';
+import { BaseUrlImage } from '../../../api/endpoints';
 
 // Swiggy color palette
 const swiggyOrange = '#FC8019';
@@ -35,7 +36,7 @@ const ProfileHeader = ({ user, onEdit }) => {
   useEffect(() => {
     if (user) {
       const imageUrl = user?.image
-        ? `https://swggy-clone-mern-stack.onrender.com/${user.image.replace(/\\/g, '/')}`
+        ? `${BaseUrlImage}/${user.image.replace(/\\/g, '/')}`
         : '';
 
       setValue('name', user.name || '');

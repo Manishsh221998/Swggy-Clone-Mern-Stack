@@ -12,7 +12,7 @@
       padding: 0;
     }
 
-    body, html {
+    html, body {
       height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #fef3e6, #ffffff);
@@ -31,6 +31,7 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       min-height: 480px;
+      flex-direction: row;
     }
 
     .left-panel {
@@ -44,8 +45,9 @@
     }
 
     .left-panel img {
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      max-width: 420px;
+      height: auto;
     }
 
     .right-panel {
@@ -57,7 +59,7 @@
     }
 
     .brand-logo-animated {
-      font-size: 32px;
+      font-size: clamp(24px, 5vw, 32px);
       font-weight: 800;
       font-family: "Playfair Display", serif;
       text-align: center;
@@ -65,35 +67,16 @@
       background: linear-gradient(45deg, #fb7d00 0%, #f70901 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      position: relative;
-      display: inline-block;
-       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       padding: 0 4px;
-      cursor: default;
     }
-
-    /* .brand-logo-animated::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, #FF512F, #DD2476);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-    }
-
-    .brand-logo-animated:hover::after {
-      transform: scaleX(1);
-    } */
 
     .form-title {
       text-align: center;
       font-weight: 600;
-      font-size: 20px;
+      font-size: clamp(16px, 3vw, 20px);
       color: #666;
+      margin-bottom: 1rem;
     }
 
     form {
@@ -154,9 +137,18 @@
       font-size: 14px;
     }
 
+    /* RESPONSIVE SECTION */
+    @media (max-width: 992px) {
+      .container {
+        width: 100%;
+        margin: 0 1rem;
+      }
+    }
+
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
+        padding: 1.5rem 1rem;
       }
 
       .left-panel {
@@ -164,7 +156,25 @@
       }
 
       .right-panel {
-        padding: 2rem;
+        padding: 1.5rem 1rem;
+      }
+
+      .btn-orange {
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      form {
+        gap: 1rem;
+      }
+
+      .form-control {
+        padding: 10px;
+      }
+
+      .right-panel {
+        padding: 1rem;
       }
     }
   </style>
@@ -213,7 +223,7 @@
         <button type="submit" class="btn btn-orange">Login</button>
       </form>
 
-      <!-- Auth Links -->
+      <!-- Optional Auth Links -->
       <!--
       <div class="auth-links mt-3">
         <p><a href="/forgotPassword">Forgot Password?</a></p>

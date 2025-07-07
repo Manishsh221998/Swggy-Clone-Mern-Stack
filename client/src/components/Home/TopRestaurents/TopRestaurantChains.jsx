@@ -19,6 +19,7 @@ import "@fontsource/poppins";
 import { useAllRestaurants } from "../../../hooks/useRestaurants";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { BaseUrlImage } from "../../../api/endpoints";
 
 const MotionCard = motion(Card);
 const MotionBox = motion(Box);
@@ -148,7 +149,7 @@ const TopRestaurantChains = () => {
                     <Box sx={{ width: "100%", height: 160, borderRadius: 1, overflow: "hidden" }}>
                       <CardMedia
                         component="img"
-                        image={`https://swggy-clone-mern-stack.onrender.com/${restaurant.image}`}
+                        image={`${BaseUrlImage}/${restaurant?.image}`}
                         alt={restaurant.name}
                         sx={{
                           width: "100%",

@@ -21,6 +21,7 @@ import { fetchCart, addToCart, decreaseCartItem } from '../../../redux/cartSlice
 import { useMenuItems } from "../../../hooks/useRestaurants";
 import "@fontsource/poppins";
 import { motion } from "framer-motion";
+import { BaseUrlImage } from "../../../api/endpoints";
 
 const VegIcon = () => (
   <Box component="span" sx={{
@@ -113,7 +114,7 @@ const TopMenuItemsList = () => {
                   <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
                     <CardMedia
                       component="img"
-                      image={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
+                      image={`${BaseUrlImage}/${item.image}`}
                       alt={item.name}
                       sx={{
                         width: "100%",

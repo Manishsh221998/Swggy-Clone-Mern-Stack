@@ -1,6 +1,6 @@
 
 export const BASE_URL='https://swggy-clone-mern-stack.onrender.com/api'
-
+export const BaseUrlImage='https://swggy-clone-mern-stack.onrender.com'
 const ENDPOINTS = {
   //User Auth 
   CREATE_USER: '/auth/create/user',

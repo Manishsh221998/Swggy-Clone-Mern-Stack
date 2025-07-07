@@ -20,6 +20,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { Link, useParams } from "react-router-dom";
 import { useRestaurantsByCategory } from "../../hooks/useRestaurants";
 import { motion, AnimatePresence } from "framer-motion";
+import { BaseUrlImage } from "../../api/endpoints";
 
 const RestaurentsList = () => {
   const { categoryId } = useParams();
@@ -259,7 +260,7 @@ const RestaurentsList = () => {
                     <Box sx={{ width: "100%", height: 160, overflow: "hidden" }}>
                       <CardMedia
                         component="img"
-                        image={`https://swggy-clone-mern-stack.onrender.com/${res.image}`}
+                        image={`${BaseUrlImage}/${res?.image}`}
                         alt={res.name}
                         sx={{
                           width: "100%",

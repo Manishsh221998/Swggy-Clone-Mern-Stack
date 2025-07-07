@@ -16,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import RestaurentHeader from './RestaurentHeader';
 import { motion, AnimatePresence } from 'framer-motion';
+import { BaseUrlImage } from '../../../api/endpoints';
 
 const RestaurentMenus = ({ data }) => {
   const dispatch = useDispatch();
@@ -269,7 +270,7 @@ const RestaurentMenus = ({ data }) => {
                     {/* Image without animation */}
                     <Box sx={{ width: { xs: '100%', sm: 200 }, mb: { xs: 2, sm: 0 }, ml: { sm: 2 }, position: 'relative' }}>
                       <img
-                        src={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
+                        src={`${BaseUrlImage}/${item?.image}`}
                         alt={item.name}
                         onClick={() => handleOpenModal(item)}
                         style={{ width: '100%', height: '174px', objectFit: 'cover', borderRadius: 10, cursor: 'pointer' }}
@@ -388,7 +389,7 @@ const RestaurentMenus = ({ data }) => {
               <>
                 <Box sx={{ width: '100%', height: { xs: 200, sm: 250, md: 380 }, mb: 1, borderTopRightRadius: 23, borderTopLeftRadius: 23, overflow: 'hidden' }}>
                   <img
-                    src={`https://swggy-clone-mern-stack.onrender.com/${selectedItem.image}`}
+                    src={`${BaseUrlImage}/${selectedItem.image}`}
                     alt={selectedItem.name}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />

@@ -34,6 +34,7 @@ import { useUserProfile } from "../../hooks/useUser";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCart } from "../../redux/cartSlice";
 import { motion } from "framer-motion";
+import { BaseUrlImage } from "../../api/endpoints";
 
 const Header = () => {
   const theme = useTheme();
@@ -230,7 +231,7 @@ const Header = () => {
                       >
                         <Avatar
                           alt={user.name}
-                          src={`https://swggy-clone-mern-stack.onrender.com/${user.image}`}
+                          src={`${BaseUrlImage}/${user.image}`}
                           sx={{ width: 36, height: 36 }}
                         />
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -319,7 +320,7 @@ const Header = () => {
                 <ListItem sx={{ gap: 1 }}>
                   <Avatar
                     alt={user.name}
-                    src={`https://swggy-clone-mern-stack.onrender.com/${user.image}`}
+                    src={`${BaseUrlImage}/${user.image}`}
                     sx={{ width: 40, height: 40, border: "1px solid", borderColor: "divider" }}
                   />
                   <Box sx={{ mt: 0.4 }}>
