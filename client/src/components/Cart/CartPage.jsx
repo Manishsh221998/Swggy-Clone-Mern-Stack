@@ -172,8 +172,11 @@ const CartPage = () => {
           <Box sx={{ display: "flex", alignItems: "center", gap: isMobile ? 1.5 : 3 }}>
         {restaurantData?<CardMedia
               component="img"
-              image={`https://swggy-clone-mern-stack.onrender.com/${restaurantData?.image?.replace(/\\/g, "/")}`}
-              alt={restaurantData?.name}
+  image={
+    restaurantData?.image
+      ? `https://swggy-clone-mern-stack.onrender.com/${restaurantData.image.replace(/\\/g, "/")}`
+      : "/placeholder.jpg"
+  }              alt={restaurantData?.name}
               sx={{
                 width: isMobile ? 60 : 120,
                 height: isMobile ? 60 : 120,

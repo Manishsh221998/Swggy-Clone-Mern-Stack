@@ -117,7 +117,7 @@ const FoodCategories = () => {
                 <img
                   src={
                     category?.image
-                      ? `https://swggy-clone-mern-stack.onrender.com//${category.image}`
+                      ? `https://swggy-clone-mern-stack.onrender.com/${category.image}`
                       : "/placeholder.svg"
                   }
                   alt={category.name}
