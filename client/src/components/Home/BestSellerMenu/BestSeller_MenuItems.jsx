@@ -93,9 +93,10 @@ console.log(menuItems)
           transition={{ duration: 0.6 }}
         >
           <Grid container spacing={3} sx={{ justifyContent: { xs: "center", md: "start" } }}>
-            {menuItems?.map((item) => (
+            {menuItems.slice(0,8).map((item) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
                 <Card
+                key={item._id}
                   sx={{
                     width: "270px",
                     height: 320,
