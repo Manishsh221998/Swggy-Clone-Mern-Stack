@@ -39,9 +39,10 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static('uploads'));
- 
+// app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/uploads', express.static('uploads'));
+ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.use(cookieParser());
 app.use(session({
   secret: process.env.SESSION_SECRET || 'default_secret',

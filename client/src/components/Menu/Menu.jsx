@@ -129,20 +129,7 @@ const MenuItems = () => {
         <Stack
   spacing={2}
   mb={4}
-  // sx={{
-  //   position: "sticky",
-  //   top: 64,
-  //   zIndex: 1000,
-  //   background: "rgba(255, 255, 255, 0.75)",
-  //   backdropFilter: "blur(10px)",
-  //   px: { xs: 1, sm: 2 },
-  //   pt: 2,
-  //   pb: 2,
-  //   mb:2,
-  //   mt:6,
-  //   borderRadius: 2,
-  //   boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-  // }}
+ 
 >
 
           <TextField
@@ -263,13 +250,17 @@ const MenuItems = () => {
                     },
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                      image={`${BaseUrlImage}/${item.image}`}
-                    
-                    alt={item.name}
-                    sx={{ height: 165 }}
-                  />
+                <CardMedia
+  component="img"
+  image={
+    item.image
+      ? `${BaseUrlImage}/${item.image?.replace(/\\/g, "/")}`
+      : "/placeholder.jpg"
+  }
+  alt={item.name}
+  sx={{ height: 165 }}
+/>
+
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
                       {item.isVeg ? <VegIcon /> : <NonVegIcon />}
