@@ -66,8 +66,7 @@ console.log(menuItems)
   const handleRemove = (id) => {
     dispatch(decreaseCartItem({ menuItemId: id }));
   };
-  
-console.log(`${BaseUrlImage}/${item?.image?.replace(/\\/g, "/")}`);
+
 
   return (
     <>
