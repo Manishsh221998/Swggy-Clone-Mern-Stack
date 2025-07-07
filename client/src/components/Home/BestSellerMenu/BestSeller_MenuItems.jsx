@@ -111,18 +111,25 @@ const TopMenuItemsList = () => {
                     },
                   }}
                 >
-                  <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
-                    <CardMedia
-                      component="img"
-                      image={`${BaseUrlImage}/${item.image}`}
-                      alt={item.name}
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </Box>
+                <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
+  <Box
+    sx={{
+      width: "100%",
+      height: "100%",
+    }}
+  >
+    <img
+      src={item?.image ? `${BaseUrlImage}/${item.image}` : "/placeholder.jpg"}
+      alt={item.name}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+      }}
+    />
+  </Box>
+</Box>
+
 
                   <CardContent sx={{ p: 2, display: "flex", flexDirection: "column", flexGrow: 1 }}>
                     <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
