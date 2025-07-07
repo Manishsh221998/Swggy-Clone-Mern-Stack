@@ -63,22 +63,22 @@ const ContactPage = () => {
             >
               <Box sx={{ '& > div': { mb: 3 } }}>
                 <ContactInfoItem
-                  icon={<Phone color="primary" />}
+                  icon={<Phone color="info" />}
                   title="Phone"
                   content="+1 (555) 123-4567"
                 />
                 <ContactInfoItem
-                  icon={<Email color="primary" />}
+                  icon={<Email color="info" />}
                   title="Email"
                   content="support@eatzy.com"
                 />
                 <ContactInfoItem
-                  icon={<LocationOn color="primary" />}
+                  icon={<LocationOn color="info" />}
                   title="Address"
                   content="123 Food Street, San Francisco, CA 94107"
                 />
                 <ContactInfoItem
-                  icon={<Schedule color="primary" />}
+                  icon={<Schedule color="info" />}
                   title="Support Hours"
                   content="Mon-Fri: 9AM - 8PM | Sat-Sun: 10AM - 6PM"
                 />
@@ -92,7 +92,7 @@ const ContactPage = () => {
               <Box
                 sx={{
                   width: '100%',
-                  height: 500,
+                  height: 600,
                   backgroundImage: 'url(https://source.unsplash.com/800x800/?food,restaurant)',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',

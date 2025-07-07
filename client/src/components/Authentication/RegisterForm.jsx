@@ -148,8 +148,8 @@ const RegisterForm = ({ onChangeForm, onClose }) => {
                   src="/Burger.png"
                   alt="Register"
                   sx={{ 
-                    width: { xs: 100, sm:110, lg: 120 },
-                    height: { xs: 100, sm:110, lg: 120 },
+                  width: { xs: 65, sm:110, lg: 110 },
+                    height: { xs: 65, sm:110, lg: 110 },
                     filter: 'drop-shadow(0 4px 8px rgba(252, 128, 25, 0.3))'
                   }}
                 />

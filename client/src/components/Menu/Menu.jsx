@@ -186,6 +186,8 @@ const MenuItems = () => {
                       borderColor: state.isFocused ? "black" : base.borderColor,
                       boxShadow: "none",
                       minHeight: 36,
+                                            borderRadius:16
+
                     }),
                     valueContainer: (base) => ({ ...base, padding: "0 8px" }),
                     indicatorsContainer: (base) => ({ ...base, height: 36 }),
@@ -205,6 +207,7 @@ const MenuItems = () => {
                       borderColor: state.isFocused ? "black" : base.borderColor,
                       boxShadow: "none",
                       minHeight: 36,
+                      borderRadius:16
                     }),
                     valueContainer: (base) => ({ ...base, padding: "0 8px" }),
                     indicatorsContainer: (base) => ({ ...base, height: 36 }),
@@ -224,6 +227,8 @@ const MenuItems = () => {
                       borderColor: state.isFocused ? "black" : base.borderColor,
                       boxShadow: "none",
                       minHeight: 36,
+                                            borderRadius:16
+
                     }),
                     valueContainer: (base) => ({ ...base, padding: "0 8px" }),
                     indicatorsContainer: (base) => ({ ...base, height: 36 }),

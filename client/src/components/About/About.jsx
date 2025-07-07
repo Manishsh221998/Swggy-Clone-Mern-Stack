@@ -20,11 +20,11 @@ import {
   CheckCircleOutline,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import "@fontsource/poppins"; // Poppins font imported
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
 
-// Glassmorphic & modern soft card style
 const glassStyle = {
   backdropFilter: 'blur(14px)',
   background: 'rgba(255, 255, 255, 0.1)',
@@ -70,14 +70,14 @@ const AboutPage = () => {
   return (
     <Box
       sx={{
-        background: '#f7f8fc',
-        py: 10,
+        fontFamily: '"Poppins", sans-serif',
+        background: "linear-gradient(to bottom right, #FFEDF3 80%, #e0f7fa 30%)",
+        py: 6,
         px: 2,
         minHeight: '100vh',
       }}
     >
       <Container maxWidth="lg">
-        {/* Hero Section */}
         <MotionBox
           textAlign="center"
           initial={{ opacity: 0, y: -30 }}
@@ -92,139 +92,109 @@ const AboutPage = () => {
           >
             About
           </Typography>
-          <Typography variant="h3" sx={{ fontWeight: 700, mt: 1 }}>
-            The dream team of digital food delivery
+          <Typography
+             sx={{ fontWeight: 700, mt: 1, fontSize: { xs: '1rem', md: '2.75rem' },
+           background: "linear-gradient(to right, black,#626F47)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent", }}
+          >
+            EatZy - The Dream Team of Digital Food Delivery
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             maxWidth="sm"
-            mx="auto"
-            mt={2}
+            sx={{ mx: 'auto', mt: 2, textAlign: 'center' }}
           >
             We grow food businesses online. Period.
           </Typography>
         </MotionBox>
 
-        {/* Our Story */}
-        <Paper elevation={0} sx={{ ...glassStyle, p: 5, mb: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>
+        <MotionPaper elevation={0} sx={{ ...glassStyle, p: 5, mb: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, textAlign: 'center' }}>
             Our Story
           </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Typography paragraph>
+          <Grid container spacing={4} justifyContent="center">
+            <Grid item xs={12} md={8}>
+              <Typography paragraph textAlign="center">
                 Founded in 2018, Eatzy began as a small project to connect local
                 restaurants with food lovers in San Francisco. What started as a
                 simple idea has now grown into one of the most trusted food
                 delivery platforms in the country.
               </Typography>
-              <Typography paragraph>
+              <Typography paragraph textAlign="center">
                 Our mission is simple: to make food delivery fast, easy, and
                 delightful. We carefully select our restaurant partners to ensure
                 you get the best quality meals every time.
               </Typography>
             </Grid>
-            <Grid item xs={12} md={6}>
-              {/* <Box
-                component="img"
-                src="/Team-Member/team.jpg"
-                alt="Eatzy team"
-                sx={{
-                  width: '100%',
-                  borderRadius: 3,
-                  boxShadow: 6,
-                  transition: '0.3s',
-                  '&:hover': { transform: 'scale(1.02)' },
-                }}
-              /> */}
-            </Grid>
           </Grid>
-        </Paper>
+        </MotionPaper>
 
-        {/* Why Choose Eatzy */}
-        <MotionBox
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          sx={{ mb: 10 }}
-        >
-          <Typography
-            variant="h4"
-            textAlign="center"
-            sx={{ fontWeight: 600, mb: 4 }}
-          >
-            Why Choose Eatzy?
-          </Typography>
-          <Grid container spacing={4}>
-            {[
-              {
-                icon: <Restaurant sx={{ fontSize: 40, color: '#ff7043' }} />,
-                title: '100+ Restaurants',
-                text: 'Wide selection of cuisines',
-              },
-              {
-                icon: <LocalShipping sx={{ fontSize: 40, color: '#42a5f5' }} />,
-                title: 'Fast Delivery',
-                text: 'Average delivery time under 30 mins',
-              },
-              {
-                icon: <Payment sx={{ fontSize: 40, color: '#66bb6a' }} />,
-                title: 'Secure Payments',
-                text: 'Multiple payment options',
-              },
-              {
-                icon: <Group sx={{ fontSize: 40, color: '#ab47bc' }} />,
-                title: '24/7 Support',
-                text: 'Dedicated customer service',
-              },
-            ].map((item, i) => (
-              <Grid item xs={12} sm={6} md={3} key={i}>
-                <Paper
-                  elevation={0}
-                  sx={{
-                    borderRadius: 4,
-                    p: 3,
-                    textAlign: 'center',
-                    backgroundColor: '#fff',
-                    boxShadow: '0 4px 24px rgba(0, 0, 0, 0.04)',
-                    transition: '0.3s',
-                    '&:hover': { transform: 'translateY(-5px)' },
-                  }}
-                >
-                  {item.icon}
-                  <Typography variant="h6" sx={{ mt: 1, fontWeight: 500 }}>
-                    {item.title}
-                  </Typography>
-                  <Typography color="text.secondary" mt={1}>
-                    {item.text}
-                  </Typography>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
-        </MotionBox>
-
-        {/* Meet Our Team (Clean card UI like reference image) */}
-        <Typography variant="h4" sx={{ fontWeight: 600, mb: 4 }}>
-          Meet Our Team
-        </Typography>
-        <Grid container spacing={3}>
-          {teamMembers.map((member, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <Paper
+        <Grid container spacing={4} justifyContent="center" sx={{ mb: 10 }}>
+          {[...Array(4)].map((_, i) => (
+            <Grid item xs={12} sm={6} md={3} key={i} display="flex" justifyContent="center">
+              <MotionPaper
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
                 elevation={0}
                 sx={{
                   borderRadius: 4,
                   p: 3,
                   textAlign: 'center',
-                  backgroundColor: '#f9f9f9',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-                  position: 'relative',
+                  backgroundColor: '#fff',
+                  boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+                  transition: '0.3s',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 12px 36px rgba(0, 0, 0, 0.08)',
+                  },
+                  width: '100%',
                 }}
               >
-                {/* Number */}
+                {[<Restaurant sx={{ fontSize: 40, color: '#ff7043' }} />,
+                  <LocalShipping sx={{ fontSize: 40, color: '#42a5f5' }} />,
+                  <Payment sx={{ fontSize: 40, color: '#66bb6a' }} />,
+                  <Group sx={{ fontSize: 40, color: '#ab47bc' }} />,
+                ][i]}
+                <Typography variant="h6" sx={{ mt: 1, fontWeight: 600 }}>
+                  {['100+ Restaurants', 'Fast Delivery', 'Secure Payments', '24/7 Support'][i]}
+                </Typography>
+                <Typography color="text.secondary" mt={1} fontSize={14}>
+                  {[
+                    'Wide selection of cuisines',
+                    'Average delivery time under 30 mins',
+                    'Multiple payment options',
+                    'Dedicated customer service'
+                  ][i]}
+                </Typography>
+              </MotionPaper>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Typography variant="h4" sx={{ fontWeight: 700, mb: 4, textAlign: 'center' }}>
+          Meet Our Team
+        </Typography>
+        <Grid container spacing={3} justifyContent="center">
+          {teamMembers.map((member, index) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index} display="flex" justifyContent="center">
+              <MotionPaper
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                elevation={0}
+                sx={{
+                  borderRadius: 4,
+                  p: 3,
+                  textAlign: 'center',
+                  backgroundColor: '#fff',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+                  position: 'relative',
+                  width: '100%',
+                }}
+              >
                 <Box
                   sx={{
                     position: 'absolute',
@@ -232,13 +202,11 @@ const AboutPage = () => {
                     left: 16,
                     fontWeight: 600,
                     fontSize: '18px',
-                    color: '#9e9e9e',
+                    color: '#ccc',
                   }}
                 >
                   {String(index + 1).padStart(2, '0')}
                 </Box>
-
-                {/* Avatar/Image */}
                 <Avatar
                   src={member.image}
                   sx={{
@@ -253,15 +221,13 @@ const AboutPage = () => {
                 >
                   {member.avatar}
                 </Avatar>
-
-                {/* Name Badge */}
                 <Box
                   sx={{
                     display: 'inline-block',
                     px: 1.5,
                     py: 0.5,
                     borderRadius: 99,
-                    backgroundColor: '#e0e0e0',
+                    backgroundColor: '#f1f1f1',
                     fontSize: 14,
                     fontWeight: 500,
                     mb: 1.5,
@@ -269,26 +235,24 @@ const AboutPage = () => {
                 >
                   {member.name}
                 </Box>
-
                 <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                   {member.role}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" mt={1}>
                   {member.description}
                 </Typography>
-              </Paper>
+              </MotionPaper>
             </Grid>
           ))}
         </Grid>
 
-        {/* Our Values */}
         <MotionBox
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           sx={{ mt: 10 }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, textAlign: 'center' }}>
             Our Values
           </Typography>
           <List>
@@ -305,6 +269,7 @@ const AboutPage = () => {
                   px: 0,
                   py: 1,
                   borderBottom: '1px dashed #ddd',
+                  justifyContent: 'center',
                 }}
               >
                 <ListItemIcon>

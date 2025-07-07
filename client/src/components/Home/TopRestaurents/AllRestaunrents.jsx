@@ -4,7 +4,6 @@ import {
   Typography,
   Grid,
   Chip,
-  Stack,
   Card,
   CardMedia,
   CardContent,
@@ -17,9 +16,11 @@ import {
   InputLabel,
   Divider,
 } from "@mui/material";
+import "@fontsource/poppins";
 import StarIcon from "@mui/icons-material/Star";
 import { useAllRestaurants } from "../../../hooks/useRestaurants";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const AllRestaunrents = () => {
   const { data } = useAllRestaurants();
@@ -37,7 +38,6 @@ const AllRestaunrents = () => {
     avgPrice: Math.floor(Math.random() * 500) + 100,
   }));
 
-  // Collect dynamic filters from data
   const allTags = [...new Set(restaurants.flatMap((r) => r.tags || []))];
   const allCities = [...new Set(restaurants.map((r) => r.address.city))];
   const allCuisines = [...new Set(restaurants.flatMap((r) => r.cuisineNames || []))];
@@ -66,13 +66,24 @@ const AllRestaunrents = () => {
 
   return (
     <>
-      <Divider sx={{ mx: 4, my: 4 }} />
+      <Divider sx={{ my: 2, mx: 3 }} />
       <Container sx={{ py: 2 }}>
-        <Typography variant="h5" fontWeight="bold" mb={2}>
+        <Typography
+          fontWeight="bold"
+          mb={2}
+          sx={{
+            fontSize: "26px",
+            fontFamily: '"Poppins", sans-serif',
+            background: "linear-gradient(to right, black, chocolate)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            display: "inline-block",
+          }}
+        >
           Restaurants with online food delivery in Kolkata
         </Typography>
 
-        {/* Filters & Cuisine Select */}
+        {/* Filters */}
         <Box
           sx={{
             display: "flex",
@@ -81,14 +92,13 @@ const AllRestaunrents = () => {
             alignItems: isMobile ? "flex-start" : "center",
             gap: 2,
             mb: 4,
-          
           }}
         >
           <Box
             sx={{
               display: "flex",
               gap: 1,
-              pt:1,
+              pt: 1,
               flexWrap: "nowrap",
               overflowX: "auto",
               width: "100%",
@@ -118,11 +128,11 @@ const AllRestaunrents = () => {
             ))}
 
             <FormControl size="small" sx={{ minWidth: 150 }}>
-              <InputLabel >Cuisine</InputLabel>
+              <InputLabel>Cuisine</InputLabel>
               <Select
                 value={selectedCuisine}
                 label="Cuisine"
-                sx={{borderRadius:6, height:'30px'}}
+                sx={{ borderRadius: 6, height: "30px" }}
                 onChange={(e) => setSelectedCuisine(e.target.value)}
               >
                 <MenuItem value="">All</MenuItem>
@@ -136,98 +146,103 @@ const AllRestaunrents = () => {
           </Box>
         </Box>
 
-        {/* Grid Cards */}
-        <Grid container spacing={3}  sx={{justifyContent:{xs:'center',md:'start',lg:'start'}}}>
-          {filtered.map((res) => (
+        {/* Grid Cards with animation */}
+        <Grid container spacing={3} sx={{ justifyContent: { xs: "center", md: "start", lg: "start" } }}>
+          {filtered.map((res, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={res._id}>
-              <Link to={`restaurents/${res._id}/restaurent-wise-menus/${res._id}`}>
-              <Card
-                sx={{
-                  width: "270px",
-                  height: 300,
-                  borderRadius: 4,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                  transition: "0.3s",
-                  display: "flex",
-                  flexDirection: "column",
-                  "&:hover": {
-                    transform: "translateY(-2px)",
-                    boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
-                  },
-                }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02 }}
               >
-                <Box sx={{ width: "100%", height: 160, overflow: "hidden" }}>
-                  <CardMedia
-                    component="img"
-                    image={`http://localhost:3001/${res.image}`}
-                    alt={res.name}
+                <Link to={`restaurents/${res._id}/restaurent-wise-menus/${res._id}`} style={{ textDecoration: "none" }}>
+                  <Card
                     sx={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: 1,
-                    }}
-                  />
-                </Box>
-
-                <CardContent sx={{ p: 2, display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      fontWeight: 600,
-                      fontSize: "1rem",
-                      mb: 0.5,
-                      lineHeight: 1.3,
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
+                      width: "270px",
+                      height: 300,
+                      borderRadius: 4,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                      transition: "0.3s",
+                      display: "flex",
+                      flexDirection: "column",
+                      "&:hover": {
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
+                      },
                     }}
                   >
-                    {res.name}
-                  </Typography>
+                    <Box sx={{ width: "100%", height: 160, overflow: "hidden" }}>
+                      <CardMedia
+                        component="img"
+                        image={`http://localhost:3001/${res.image}`}
+                        alt={res.name}
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: 1,
+                        }}
+                      />
+                    </Box>
 
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-                    <Chip
-                      icon={<StarIcon sx={{ color: "#fff", fontSize: 16 }} />}
-                      label={res.rating > 0 ? res.rating.toFixed(1) : "No rating"}
-                      size="small"
-                      sx={{
-                        backgroundColor: "#48bb78",
-                        color: "#fff",
-                        fontWeight: 500,
-                        borderRadius: "6px",
-                      }}
-                    />
-                    <Typography variant="body2" sx={{ color: "#666", fontWeight: 500 }}>
-                      {res.deliveryTime} mins
-                    </Typography>
-                  </Box>
+                    <CardContent sx={{ p: 2, display: "flex", flexDirection: "column", flexGrow: 1 }}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          fontWeight: 600,
+                          fontSize: "1rem",
+                          mb: 0.5,
+                          lineHeight: 1.3,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {res.name}
+                      </Typography>
 
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: "#888",
-                      fontSize: "0.85rem",
-                      mb: 0.5,
-                      display: "-webkit-box",
-                      WebkitLineClamp: 1,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {res.cuisineNames.join(", ")}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "#999", fontSize: "0.8rem", mt: "auto" }}>
-                    {res.address.city}
-                  </Typography>
-                </CardContent>
-              </Card>
-              </Link>
+                      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+                        <Chip
+                          icon={<StarIcon sx={{ color: "#fff", fontSize: 16 }} />}
+                          label={res.rating > 0 ? res.rating.toFixed(1) : "No rating"}
+                          size="small"
+                          sx={{
+                            backgroundColor: "#48bb78",
+                            color: "#fff",
+                            fontWeight: 500,
+                            borderRadius: "6px",
+                          }}
+                        />
+                        <Typography variant="body2" sx={{ color: "#666", fontWeight: 500 }}>
+                          {res.deliveryTime} mins
+                        </Typography>
+                      </Box>
+
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: "#888",
+                          fontSize: "0.85rem",
+                          mb: 0.5,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 1,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {res.cuisineNames.join(", ")}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: "#999", fontSize: "0.8rem", mt: "auto" }}>
+                        {res.address.city}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
             </Grid>
           ))}
         </Grid>
-        
       </Container>
     </>
   );

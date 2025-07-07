@@ -33,9 +33,9 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        background: 'linear-gradient(to right, rgba(255, 255, 255, 0.6), rgb(254, 235, 246,0.22))',
+        background: 'linear-gradient(to right, rgba(255, 255, 255,0.6) 50%, rgb(229, 224, 216,0.40))',
         pt: 6,
-        pb: 4,
+        pb: 2.5,
         px: { xs: 2, sm: 4 },
         // mx: 2,
         // mt: 4,
@@ -45,7 +45,7 @@ const Footer = () => {
         WebkitBackdropFilter: 'blur(12px)',
         border: '1px solid rgba(255, 255, 255, 0.3)',
         overflow: 'hidden',
-      }}
+       }}
     >
       <Container maxWidth="lg">
         <Grid container spacing={6} justifyContent="space-between">
@@ -105,7 +105,7 @@ const Footer = () => {
                 Menu
               </Box>
               <Box
-              component={Link}
+               component={Link}
                 to="/"
               
                 sx={{color:'text.secondary', '&:hover': { color: 'orangered' } }}
@@ -129,7 +129,7 @@ const Footer = () => {
               About Us
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {[{name:'About us',path:'/about'},{name:'Our Team',path:'/about'}, {name:'Contact us',path:'/contact'}, 'Features'].map((v) => (
+              {[{name:'About us',path:'/about'},{name:'Our Team',path:'/about'}, {name:'Contact us',path:'/contact'},{name:'Terms & Conditions',path:'/t&c'},{name:'Privacy Policy',path:'/privacy-policy'}, ].map((v) => (
                 <Box
                   component={Link}
                   to={v.path}
@@ -208,15 +208,15 @@ const Footer = () => {
         </Grid>
       </Container>
 
-      <Divider sx={{ my: 4 }} />
+      <Divider sx={{ my:2.5}} />
 
       <Box textAlign="center">
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          <Link href="#" underline="hover" color="text.primary">
+          <Link to="/t&c" underline="hover" color="text.primary">
             Terms of Service
           </Link>{' '}
           |{' '}
-          <Link href="#" underline="hover" color="text.primary">
+          <Link to="/privacy-policy" underline="hover" color="text.primary">
             Privacy Policy
           </Link>
         </Typography>
@@ -230,7 +230,7 @@ const Footer = () => {
             mt: 2,
           }}
         >
-          © 2025 EatZy – Online Food Delivery App. All Rights Reserved. | Crafted with ❤️ by Manish Sharma
+          © 2025 EatZy – Online Food Delivery App. All Rights Reserved. | Developed with <span style={{color:'red'}}>❤️</span> by <span style={{color:'black'}}>Manish Sharma</span>
         </Typography>
       </Box>
 

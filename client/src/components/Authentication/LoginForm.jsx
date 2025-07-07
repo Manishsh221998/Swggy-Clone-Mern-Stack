@@ -133,8 +133,8 @@ const LoginForm = ({ onChangeForm, onClose }) => {
                   src="/pizzaa.png"
                   alt="Login"
                   sx={{ 
-                    width: { xs: 100, sm:110, lg: 140 },
-                    height: { xs: 100, sm:110, lg: 140 },
+                    width: { xs: 70, sm:110, lg: 130 },
+                    height: { xs: 70, sm:110, lg: 130 },
                     filter: 'drop-shadow(0 4px 8px rgba(252, 128, 25, 0.3))'
                   }}
                 />

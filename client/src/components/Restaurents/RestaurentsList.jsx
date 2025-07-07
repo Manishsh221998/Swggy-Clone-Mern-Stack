@@ -305,7 +305,7 @@ const RestaurentsList = () => {
                       >
                         <Chip
                           icon={
-                            <StarIcon sx={{ color: "#fff", fontSize: 16 }} />
+                            <StarIcon sx={{ color: "#fff", fontSize: 16 }} color="white" />
                           }
                           label={
                             res.rating > 0 ? res.rating.toFixed(1) : "No rating"

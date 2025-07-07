@@ -19,6 +19,13 @@ const restaurantApiRouter = require("./app/router/apiRutes/restaurant.Routes");
 const cartRouter = require("./app/router/apiRutes/cart.Routes");
 const orderRouter = require("./app/router/apiRutes/order.Routes");
 
+const rateLimitMiddleware = require('./app/middleware/rateLimit')
+const swaggerJsdoc=require('swagger-jsdoc')
+const swaggerUi=require('swagger-ui-express')
+const SwaggerOptions=require('./swagger.json')
+const swaggerDocument=swaggerJsdoc(SwaggerOptions)
+ 
+
 // Connect to database
 connectDB();
 
@@ -51,6 +58,9 @@ app.set("views", path.join(__dirname, "views"));
 // Body parsing
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+
 
 //Admin-Routes
 app.use(router);

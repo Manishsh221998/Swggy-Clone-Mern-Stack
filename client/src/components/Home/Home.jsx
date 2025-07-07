@@ -4,7 +4,7 @@ import FoodCategories from './MenuCategory/FoodCategories'
 import { Box } from '@mui/material'
  import AllRestaunrents from './TopRestaurents/AllRestaunrents'
 import SwiggyLandingPage from './SwiggyLandingPage'
-import TopMenuItemsList from './TopMenuItems/TopMenuItemsList'
+import BestSeller_MenuItems from './BestSellerMenu/BestSeller_MenuItems'
  
 const Home = () => {
   return (
@@ -20,7 +20,7 @@ const Home = () => {
        <FoodCategories />
       {/* <SwiggyLandingPage/> */}
       <TopRestaurantChains />
-      <TopMenuItemsList/>
+      <BestSeller_MenuItems/>
        <AllRestaunrents/>
     </Box>
   )

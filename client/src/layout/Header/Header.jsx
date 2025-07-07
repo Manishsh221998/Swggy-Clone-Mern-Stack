@@ -17,12 +17,15 @@ import {
   Badge,
   ClickAwayListener,
 } from "@mui/material";
+
 import {
   Menu as MenuIcon,
   ShoppingCart,
   AccountCircle,
   Home as HomeIcon,
-} from "@mui/icons-material";
+ } from "@mui/icons-material";
+import RestaurantMenuIcon  from '@mui/icons-material/RestaurantMenu';
+import InfoIcon from '@mui/icons-material/Info';
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { AiOutlineLogout } from "react-icons/ai";
 import AuthDrawerController from "../../components/Drawer/AuthDrawerController";
@@ -90,12 +93,13 @@ const Header = () => {
         position={isMobile || loginDrawerOpen ? "static" : "fixed"}
         elevation={0}
         sx={{
-          background: scrolled
+          background
+          : scrolled
             ? "linear-gradient(90deg, rgba(255,255,255,0.85) 0%, rgba(255,243,213,0.85) 100%)"
             : "transparent",
           color: "#000",
-          backdropFilter: scrolled ? "blur(9px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(9px)" : "none",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px)" : "none",
           transition: "all 0.3s ease-in-out",
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.06)",
           borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
@@ -160,16 +164,23 @@ const Header = () => {
             {/* Center: Menu */}
             {!isMobile && (
               <Box sx={{ flex: 1, display: "flex", justifyContent: "center", gap: 4 }}>
-                {[{ icon: <HomeIcon />, path: "/", label: "Home" },
-                  { icon: <FastfoodIcon />, path: "/menu", label: "Menu" },
+                {[{ 
+                  // icon: <HomeIcon sx={{fontSize:18}} />, 
+                path: "/", label: "Home" },
+                {
+                  //  icon: <InfoIcon sx={{fontSize:18}}/>,
+                 path: "/about", label: "About" },
+                  { 
+                    // icon: <RestaurantMenuIcon sx={{fontSize:18}}  />, 
+                  path: "/menu", label: "Menu" },
                   {
                     icon: (
                       <Badge badgeContent={totalCount} color="success">
-                        <ShoppingCart />
+                        <ShoppingCart sx={{fontSize:18}}  />
                       </Badge>
                     ),
                     path: "/cart",
-                    label: "Cart",
+                    // label: "Cart",
                   },
                 ].map((item, idx) => (
                   <Link to={item.path} key={idx} style={{ textDecoration: "none" }}>
@@ -178,12 +189,13 @@ const Header = () => {
                         display: "flex",
                         alignItems: "center",
                         gap: 0.5,
+                        
                         cursor: "pointer",
                         "&:hover": { color: "orangered" },
                       }}
                     >
                       {item.icon}
-                      <Typography variant="body2">{item.label}</Typography>
+                      <Typography variant="body2" sx={{fontSize:15}}>{item.label}</Typography>
                     </Box>
                   </Link>
                 ))}
@@ -236,15 +248,15 @@ const Header = () => {
                           position: "absolute",
                           top: "100%",
                           right: 0,
-                          mt: 2.5,
-                          width: 200,
+                          mt: 2,
+                          width: 170,
                           backgroundColor: "#fff",
                           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
                           borderRadius: 1,
                           zIndex: 1000,
                         }}
                       >
-                        {[{ label: "Profile", path: "/profile" }, { label: "My Orders", path: "/orders" }].map(
+                        {[{ label: "Profile", path: "/profile" }, { label: "Cart", path: "/cart" }].map(
                           (item, idx) => (
                             <MenuItem
                               key={idx}
@@ -283,7 +295,7 @@ const Header = () => {
                     onClick={toggleLoginDrawer(true, "login")}
                   >
                     <AccountCircle fontSize="small" />
-                    <Typography variant="body2">Login</Typography>
+                    <Typography variant="body2" >Sign in</Typography>
                   </Box>
                 )
               ) : (
@@ -296,7 +308,7 @@ const Header = () => {
         </Box>
       </AppBar>
 
-      {!isMobile && <Box sx={{ height: "72px" }} />}
+      {!isMobile && <Box sx={{ height: "65px" }} />}
 
       {/* Drawer for mobile */}
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
@@ -334,25 +346,25 @@ const Header = () => {
                 <Divider sx={{ my: 0 }} />
               </>
             )}
-            <ListItem button component={Link} to="/">
-              <HomeIcon fontSize="small" />
+            <ListItem button component={Link} to="/" >
+              <HomeIcon fontSize="small" sx={{fontSize:'18px'}} />
               <ListItemText primary="Home" sx={{ ml: 1 }} />
             </ListItem>
             <ListItem button component={Link} to="/menu">
-              <FastfoodIcon fontSize="small" />
+              <FastfoodIcon fontSize="small" sx={{fontSize:'18px'}} />
               <ListItemText primary="Menu" sx={{ ml: 1 }} />
             </ListItem>
             <ListItem button component={Link} to="/cart">
               <Badge badgeContent={totalCount} color="success">
-                <ShoppingCart fontSize="small" />
+                <ShoppingCart fontSize="small" sx={{fontSize:'18px'}} />
               </Badge>
-              <ListItemText primary="Cart" sx={{ ml: 1 }} />
+              <ListItemText primary="Cart" sx={{ ml: 1}} />
             </ListItem>
             {token && user ? (
               <>
                 <Divider />
                 <ListItem button onClick={handleLogout}>
-                  <AiOutlineLogout style={{ color: "red", fontWeight: "bold" }} />
+                  <AiOutlineLogout style={{ color: "red", fontWeight: "bold", fontSize:'18px' }} />
                   <ListItemText primary="Logout" sx={{ ml: 1 }} />
                 </ListItem>
               </>

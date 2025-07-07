@@ -21,20 +21,19 @@ const NotFoundPage = lazy(() => import("../components/Not_found/NotFoundPage"));
 const TermsAndConditions = lazy(() => import("../components/T&C/TermsAndConditions "));
 const PrivacyPolicy = lazy(() => import("../components/T&C/PrivacyPolicy"));
 
-import Stack from '@mui/material/Stack';
-import CircularProgress from '@mui/material/CircularProgress';
+ 
 import AboutPage from "../components/About/About";
 import ContactPage from "../components/Contact/Contact";
+import LoadingSpinner from "../components/LoadingScreen/LoadingSpinner";
 
 const Routing = () => {
   return (
     <Router>
       <Header />
        <Suspense fallback={ 
-          <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
-      <CircularProgress color="inherit" />
-    </Stack>
-      }
+ 
+      <LoadingSpinner/>
+       }
       >
 
         <Routes>
