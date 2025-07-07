@@ -113,14 +113,9 @@ const TopMenuItemsList = () => {
                   <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
                     <Box sx={{ width: "100%", height: "100%" }}>
                       <img
-                        src={
-                          item?.image
-                            ? `${BaseUrlImage}/${item.image.replace(/\\/g, "/")}`
-                            : "/placeholder.jpg"
-                        }
+                        src={`${BaseUrlImage}/${item.image}`}
                         alt={item.name}
-                        onError={(e) => (e.target.src = "/placeholder.jpg")}
-                        style={{
+                         style={{
                           width: "100%",
                           height: "100%",
                           objectFit: "cover",
