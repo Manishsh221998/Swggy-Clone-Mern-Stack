@@ -8,7 +8,7 @@
           "name": "Manish Sharma"
         },
         "servers": [
-          "http://localhost:3001"
+          "https://swggy-clone-mern-stack.onrender.com"
           
         ]  
       },

@@ -174,7 +174,7 @@ const AllRestaunrents = () => {
                     <Box sx={{ width: "100%", height: 160, overflow: "hidden" }}>
                       <CardMedia
                         component="img"
-                        image={`http://localhost:3001/${res.image}`}
+                        image={`https://swggy-clone-mern-stack.onrender.com/${res.image}`}
                         alt={res.name}
                         sx={{
                           width: "100%",

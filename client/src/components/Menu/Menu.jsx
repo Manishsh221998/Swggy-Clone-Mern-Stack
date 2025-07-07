@@ -265,7 +265,7 @@ const MenuItems = () => {
                 >
                   <CardMedia
                     component="img"
-                    image={`http://localhost:3001/${item.image}`}
+                    image={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
                     alt={item.name}
                     sx={{ height: 165 }}
                   />

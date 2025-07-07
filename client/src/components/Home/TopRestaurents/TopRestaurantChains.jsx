@@ -148,7 +148,7 @@ const TopRestaurantChains = () => {
                     <Box sx={{ width: "100%", height: 160, borderRadius: 1, overflow: "hidden" }}>
                       <CardMedia
                         component="img"
-                        image={`http://localhost:3001/${restaurant.image}`}
+                        image={`https://swggy-clone-mern-stack.onrender.com/${restaurant.image}`}
                         alt={restaurant.name}
                         sx={{
                           width: "100%",

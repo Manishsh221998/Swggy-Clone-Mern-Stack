@@ -35,7 +35,7 @@ const ProfileHeader = ({ user, onEdit }) => {
   useEffect(() => {
     if (user) {
       const imageUrl = user?.image
-        ? `http://localhost:3001/${user.image.replace(/\\/g, '/')}`
+        ? `https://swggy-clone-mern-stack.onrender.com/${user.image.replace(/\\/g, '/')}`
         : '';
 
       setValue('name', user.name || '');

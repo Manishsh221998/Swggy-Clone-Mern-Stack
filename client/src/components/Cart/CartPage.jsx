@@ -172,7 +172,7 @@ const CartPage = () => {
           <Box sx={{ display: "flex", alignItems: "center", gap: isMobile ? 1.5 : 3 }}>
         {restaurantData?<CardMedia
               component="img"
-              image={`http://localhost:3001/${restaurantData?.image?.replace(/\\/g, "/")}`}
+              image={`https://swggy-clone-mern-stack.onrender.com/${restaurantData?.image?.replace(/\\/g, "/")}`}
               alt={restaurantData?.name}
               sx={{
                 width: isMobile ? 60 : 120,
@@ -238,7 +238,7 @@ const CartPage = () => {
                     <Box sx={{ display: "flex", gap: 2 }}>
                       <Avatar
                         variant="rounded"
-                        src={`http://localhost:3001/${item.image.replace(/\\/g, "/")}`}
+                        src={`https://swggy-clone-mern-stack.onrender.com/${item.image.replace(/\\/g, "/")}`}
                         alt={item.name}
                         sx={{
                           width: isMobile ? 48 : 56,

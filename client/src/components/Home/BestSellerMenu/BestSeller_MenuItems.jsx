@@ -113,7 +113,7 @@ const TopMenuItemsList = () => {
                   <Box sx={{ width: "100%", height: 175, overflow: "hidden" }}>
                     <CardMedia
                       component="img"
-                      image={`http://localhost:3001/${item.image}`}
+                      image={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
                       alt={item.name}
                       sx={{
                         width: "100%",

@@ -161,7 +161,7 @@ cd server
 cd client
 ```
 
-Swagger URL: [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+Swagger URL: [https://swggy-clone-mern-stack.onrender.com//api-docs](https://swggy-clone-mern-stack.onrender.com//api-docs)
 
 ---
 
@@ -173,7 +173,7 @@ cd server
 npm install
 npm run 
 
-# Server runs on: http://localhost:3001
+# Server runs on: https://swggy-clone-mern-stack.onrender.com/
 
 # Install and run the frontend
 
@@ -181,7 +181,7 @@ cd client
 npm install
 npm run dev
 
-# Frontend runs on: http://localhost:5173 (default Vite port)
+# Frontend runs on: https://swggy-clone-mern-stack-1.onrender.com/ (default Vite port)
 
 ## 🛡️ Authorizations
 

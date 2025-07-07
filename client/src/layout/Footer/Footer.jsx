@@ -148,7 +148,7 @@ const Footer = () => {
               Resources
             </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {[{name:'Help Center',path:'/contact'}, {name:'Blog',path:'/'}, {name:'Admin',path:'http://localhost:3001/'},].map((v) => (
+              {[{name:'Help Center',path:'/contact'}, {name:'Blog',path:'/'}, {name:'Admin',path:'https://swggy-clone-mern-stack.onrender.com/'},].map((v) => (
                 <Box
                   component={Link}
                   to={v.path}

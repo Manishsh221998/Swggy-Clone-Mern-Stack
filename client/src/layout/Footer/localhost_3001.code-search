@@ -1,0 +1,85 @@
+# Query: localhost:3001
+# ContextLines: 1
+
+18 results - 13 files
+
+README.md:
+  163  
+  164: Swagger URL: [https://swggy-clone-mern-stack.onrender.com/api-docs](https://swggy-clone-mern-stack.onrender.com/api-docs)
+  165  
+
+  175  
+  176: # Server runs on: http://localhost:3001
+  177  
+
+client\src\components\Authentication\profile\ProfileHeader.jsx:
+  37        const imageUrl = user?.image
+  38:         ? `https://swggy-clone-mern-stack.onrender.com/${user.image.replace(/\\/g, '/')}`
+  39          : '';
+
+client\src\components\Cart\CartPage.jsx:
+  174                component="img"
+  175:               image={`https://swggy-clone-mern-stack.onrender.com/${restaurantData?.image?.replace(/\\/g, "/")}`}
+  176                alt={restaurantData?.name}
+
+  240                          variant="rounded"
+  241:                         src={`https://swggy-clone-mern-stack.onrender.com/${item.image.replace(/\\/g, "/")}`}
+  242                          alt={item.name}
+
+client\src\components\Home\BestSellerMenu\BestSeller_MenuItems.jsx:
+  115                        component="img"
+  116:                       image={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
+  117                        alt={item.name}
+
+client\src\components\Home\MenuCategory\FoodCategories.jsx:
+  119                      category?.image
+  120:                       ? `https://swggy-clone-mern-stack.onrender.com/${category.image}`
+  121                        : "/placeholder.svg"
+
+client\src\components\Home\TopRestaurents\AllRestaunrents.jsx:
+  176                          component="img"
+  177:                         image={`https://swggy-clone-mern-stack.onrender.com/${res.image}`}
+  178                          alt={res.name}
+
+client\src\components\Home\TopRestaurents\TopRestaurantChains.jsx:
+  150                          component="img"
+  151:                         image={`https://swggy-clone-mern-stack.onrender.com/${restaurant.image}`}
+  152                          alt={restaurant.name}
+
+client\src\components\Menu\Menu.jsx:
+  267                      component="img"
+  268:                     image={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
+  269                      alt={item.name}
+
+client\src\components\Restaurents\RestaurentsList.jsx:
+  261                          component="img"
+  262:                         image={`https://swggy-clone-mern-stack.onrender.com/${res.image}`}
+  263                          alt={res.name}
+
+client\src\components\Restaurents\menuITems\RestaurentMenus.jsx:
+  271                        <img
+  272:                         src={`https://swggy-clone-mern-stack.onrender.com/${item.image}`}
+  273                          alt={item.name}
+
+  390                    <img
+  391:                     src={`https://swggy-clone-mern-stack.onrender.com/${selectedItem.image}`}
+  392                      alt={selectedItem.name}
+
+client\src\layout\Footer\Footer.jsx:
+  150            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+  151:               {[{name:'Help Center',path:'/contact'}, {name:'Blog',path:'/'}, {name:'Admin',path:'https://swggy-clone-mern-stack.onrender.com/'},].map((v) => (
+  152                  <Box
+
+client\src\layout\Header\Header.jsx:
+  232                            alt={user.name}
+  233:                           src={`https://swggy-clone-mern-stack.onrender.com/${user.image}`}
+  234                            sx={{ width: 36, height: 36 }}
+
+  321                      alt={user.name}
+  322:                     src={`https://swggy-clone-mern-stack.onrender.com/${user.image}`}
+  323                      sx={{ width: 40, height: 40, border: "1px solid", borderColor: "divider" }}
+
+server\swagger.json:
+  10          "servers": [
+  11:           "https://swggy-clone-mern-stack.onrender.com/"
+  12            
