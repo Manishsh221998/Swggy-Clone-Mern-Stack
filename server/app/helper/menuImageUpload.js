@@ -15,7 +15,7 @@ const storage=multer.diskStorage({
         if(isValid){
             uploadError=null
         }
-        cb(uploadError,'uploads/menu_Image')
+        cb(uploadError,'uploads/menu_image')
     },
     filename:function(req,file,cb){
         // console.log(file,file.originalname.split(' '))
