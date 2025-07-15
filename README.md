@@ -161,7 +161,7 @@ cd server
 cd client
 ```
 
-Swagger URL: [https://swggy-clone-mern-stack.onrender.com//api-docs](https://swggy-clone-mern-stack.onrender.com//api-docs)
+# Swagger URL: https://swggy-clone-mern-stack.onrender.com/api-docs/
 
 ---
 
@@ -174,6 +174,7 @@ npm install
 npm run 
 
 # Server runs on: https://swggy-clone-mern-stack.onrender.com/
+ 
 
 # Install and run the frontend
 
@@ -196,4 +197,4 @@ npm run dev
 
 Made with ❤️ by **Manish Sharma**
 
----
+
